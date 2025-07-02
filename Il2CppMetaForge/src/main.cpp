@@ -31,9 +31,12 @@ int main(int argc, char* argv[])
 
     reader.LoadMetadataPointers(gameAssembly);
 
-    // 더미 데이터 주입
+    // \uB124\uC784 \uC5C6\uB294 \uB370\uC774\uD130\uB97C \uC81C\uACF5\uD558\uAE30 \uC704\uD574 \uAC00\uC7A5 \uAE4A\uC740 \uAD6C\uC870\uCCB4\uB97C \uD615\uC131
     std::vector<Il2CppTypeDefinition> types(1);
+    types[0] = {};
+
     std::vector<Il2CppMethodDefinition> methods(1);
+    methods[0] = {};
 
     std::vector<Il2CppStringLiteral> literals(1);
     literals[0].length = 4;
