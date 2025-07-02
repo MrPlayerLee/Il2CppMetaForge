@@ -26,6 +26,11 @@ void MetadataBuilder::SetMetadataUsages(const std::vector<Il2CppMetadataUsage>& 
     metadataUsages = usages;
 }
 
+void MetadataBuilder::SetImageDefinitions(const std::vector<Il2CppImageDefinition>& images)
+{
+    imageDefinitions = images;
+}
+
 void MetadataBuilder::Build()
 {
     std::ofstream file(outputPath, std::ios::binary);
@@ -33,9 +38,9 @@ void MetadataBuilder::Build()
         return;
 
     WriteMetadataHeader(file);
-    WriteTypeDefinitions(file);
-    WriteMethodDefinitions(file);
     WriteStringLiteralTable(file);
+    WriteMethodDefinitions(file);
+    WriteTypeDefinitions(file);
     WriteMetadataUsages(file);
     WriteImageDefinitions(file);
 
@@ -47,8 +52,24 @@ void MetadataBuilder::WriteMetadataHeader(std::ofstream& file)
     Il2CppGlobalMetadataHeader header{};
     header.sanity = 0xFAB11BAF;
     header.version = 31;
-    header.stringLiteralOffset = sizeof(Il2CppGlobalMetadataHeader);
+
+    uint32_t offset = sizeof(Il2CppGlobalMetadataHeader);
+    header.stringLiteralOffset = offset;
     header.stringLiteralCount = static_cast<uint32_t>(stringLiterals.size());
+    offset += static_cast<uint32_t>(stringLiterals.size() * sizeof(Il2CppStringLiteral) +
+                                   stringLiteralData.size());
+
+    header.stringOffset = offset;
+    header.stringCount = 0; // \uBCC0\uACBD\uB41C \uBB38\uC790 \uD14C\uC774\uBE14\uC740 \uC5C6\uC74C
+
+    header.methodDefinitionOffset = offset;
+    header.methodDefinitionCount = static_cast<uint32_t>(methodDefinitions.size());
+    offset += static_cast<uint32_t>(methodDefinitions.size() * sizeof(Il2CppMethodDefinition));
+
+    header.typeDefinitionOffset = offset;
+    header.typeDefinitionCount = static_cast<uint32_t>(typeDefinitions.size());
+    offset += static_cast<uint32_t>(typeDefinitions.size() * sizeof(Il2CppTypeDefinition));
+
     file.write(reinterpret_cast<const char*>(&header), sizeof(header));
 }
 
@@ -80,6 +101,7 @@ void MetadataBuilder::WriteMetadataUsages(std::ofstream& file)
 
 void MetadataBuilder::WriteImageDefinitions(std::ofstream& file)
 {
-    // Placeholder for image definitions output
+    for (const auto& img : imageDefinitions)
+        file.write(reinterpret_cast<const char*>(&img), sizeof(img));
 }
 
