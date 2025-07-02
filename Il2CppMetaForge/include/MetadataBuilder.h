@@ -14,6 +14,7 @@ public:
     void SetStringLiterals(const std::vector<Il2CppStringLiteral>& literals,
                            const std::vector<char>& stringData);
     void SetMetadataUsages(const std::vector<Il2CppMetadataUsage>& usages);
+    void SetImageDefinitions(const std::vector<Il2CppImageDefinition>& images);
 
     void Build();
 
@@ -31,5 +32,6 @@ private:
     std::vector<Il2CppStringLiteral> stringLiterals;
     std::vector<char> stringLiteralData;
     std::vector<Il2CppMetadataUsage> metadataUsages;
+    std::vector<Il2CppImageDefinition> imageDefinitions;
 };
 
