@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-// ±âº» Il2Cpp ±¸Á¶Ã¼ Á¤ÀÇ
+// Â±Ã¢ÂºÂ» Il2Cpp Â±Â¸ÃÂ¶ÃƒÂ¼ ÃÂ¤Ã€Ã‡
 
 struct Il2CppTypeDefinition
 {
@@ -70,8 +70,21 @@ struct Il2CppGlobalMetadataHeader
 
     uint32_t typeDefinitionOffset;
     uint32_t typeDefinitionCount;
+    // reserved
+};
 
-    // ... »ı·«µÈ ´Ù¸¥ ÇÊµåµé
+struct Il2CppMetadataUsage
+{
+    uint32_t destinationIndex;
+    uint32_t encodedSourceIndex;
+};
 
-    // ¸¶Áö¸·¿¡ ÇÊ¿äÇÑ »ç¿ë ÇÊµå¸¸ Ãß°¡
+struct Il2CppImageDefinition
+{
+    uint32_t nameIndex;
+    uint32_t assemblyIndex;
+    uint32_t typeStart;
+    uint32_t typeCount;
+    uint32_t entryPointIndex;
+    uint32_t token;
 };

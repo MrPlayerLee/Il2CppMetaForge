@@ -1,74 +1,85 @@
-#include "Il2CppMetadataStructs.h"
-#include <fstream>
-#include <vector>
-#include <cstdint>
+#include "MetadataBuilder.h"
 #include <cstring>
 
-class MetadataBuilder {
-public:
-    MetadataBuilder(const std::string& outputPath)
-        : outputPath(outputPath) {
-    }
+MetadataBuilder::MetadataBuilder(const std::string& path)
+    : outputPath(path) {}
 
-    void setTypeDefinitions(const std::vector<Il2CppTypeDefinition>& defs) {
-        typeDefinitions = defs;
-    }
+void MetadataBuilder::SetTypeDefinitions(const std::vector<Il2CppTypeDefinition>& defs)
+{
+    typeDefinitions = defs;
+}
 
-    void setMethodDefinitions(const std::vector<Il2CppMethodDefinition>& defs) {
-        methodDefinitions = defs;
-    }
+void MetadataBuilder::SetMethodDefinitions(const std::vector<Il2CppMethodDefinition>& defs)
+{
+    methodDefinitions = defs;
+}
 
-    void setStringLiterals(const std::vector<Il2CppStringLiteral>& literals, const std::vector<char>& stringData) {
-        stringLiterals = literals;
-        stringLiteralData = stringData;
-    }
+void MetadataBuilder::SetStringLiterals(const std::vector<Il2CppStringLiteral>& literals,
+                                        const std::vector<char>& stringData)
+{
+    stringLiterals = literals;
+    stringLiteralData = stringData;
+}
 
-    void setMetadataUsages(const std::vector<Il2CppMetadataUsage>& usages) {
-        metadataUsages = usages;
-    }
+void MetadataBuilder::SetMetadataUsages(const std::vector<Il2CppMetadataUsage>& usages)
+{
+    metadataUsages = usages;
+}
 
-    void build() {
-        std::ofstream file(outputPath, std::ios::binary);
-        if (!file) return;
+void MetadataBuilder::Build()
+{
+    std::ofstream file(outputPath, std::ios::binary);
+    if (!file)
+        return;
 
-        uint32_t offset = 0;
+    WriteMetadataHeader(file);
+    WriteTypeDefinitions(file);
+    WriteMethodDefinitions(file);
+    WriteStringLiteralTable(file);
+    WriteMetadataUsages(file);
+    WriteImageDefinitions(file);
 
-        // Write type definitions
-        for (const auto& def : typeDefinitions) {
-            file.write(reinterpret_cast<const char*>(&def), sizeof(def));
-        }
-        offset += static_cast<uint32_t>(typeDefinitions.size() * sizeof(Il2CppTypeDefinition));
+    file.close();
+}
 
-        // Write method definitions
-        for (const auto& def : methodDefinitions) {
-            file.write(reinterpret_cast<const char*>(&def), sizeof(def));
-        }
-        offset += static_cast<uint32_t>(methodDefinitions.size() * sizeof(Il2CppMethodDefinition));
+void MetadataBuilder::WriteMetadataHeader(std::ofstream& file)
+{
+    Il2CppGlobalMetadataHeader header{};
+    header.sanity = 0xFAB11BAF;
+    header.version = 31;
+    header.stringLiteralOffset = sizeof(Il2CppGlobalMetadataHeader);
+    header.stringLiteralCount = static_cast<uint32_t>(stringLiterals.size());
+    file.write(reinterpret_cast<const char*>(&header), sizeof(header));
+}
 
-        // Write string literals metadata
-        for (const auto& lit : stringLiterals) {
-            file.write(reinterpret_cast<const char*>(&lit), sizeof(lit));
-        }
-        offset += static_cast<uint32_t>(stringLiterals.size() * sizeof(Il2CppStringLiteral));
+void MetadataBuilder::WriteTypeDefinitions(std::ofstream& file)
+{
+    for (const auto& def : typeDefinitions)
+        file.write(reinterpret_cast<const char*>(&def), sizeof(def));
+}
 
-        // Write actual string data
-        file.write(stringLiteralData.data(), stringLiteralData.size());
-        offset += static_cast<uint32_t>(stringLiteralData.size());
+void MetadataBuilder::WriteMethodDefinitions(std::ofstream& file)
+{
+    for (const auto& def : methodDefinitions)
+        file.write(reinterpret_cast<const char*>(&def), sizeof(def));
+}
 
-        // Write metadata usages
-        for (const auto& usage : metadataUsages) {
-            file.write(reinterpret_cast<const char*>(&usage), sizeof(usage));
-        }
-        offset += static_cast<uint32_t>(metadataUsages.size() * sizeof(Il2CppMetadataUsage));
+void MetadataBuilder::WriteStringLiteralTable(std::ofstream& file)
+{
+    for (const auto& lit : stringLiterals)
+        file.write(reinterpret_cast<const char*>(&lit), sizeof(lit));
 
-        file.close();
-    }
+    file.write(stringLiteralData.data(), stringLiteralData.size());
+}
 
-private:
-    std::string outputPath;
-    std::vector<Il2CppTypeDefinition> typeDefinitions;
-    std::vector<Il2CppMethodDefinition> methodDefinitions;
-    std::vector<Il2CppStringLiteral> stringLiterals;
-    std::vector<char> stringLiteralData;
-    std::vector<Il2CppMetadataUsage> metadataUsages;
-};
+void MetadataBuilder::WriteMetadataUsages(std::ofstream& file)
+{
+    for (const auto& usage : metadataUsages)
+        file.write(reinterpret_cast<const char*>(&usage), sizeof(usage));
+}
+
+void MetadataBuilder::WriteImageDefinitions(std::ofstream& file)
+{
+    // Placeholder for image definitions output
+}
+
