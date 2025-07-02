@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 echo "[*] 빌드 디렉토리 생성 중..."
 mkdir -p build
 cd build

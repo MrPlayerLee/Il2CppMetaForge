@@ -1,4 +1,4 @@
-# MetadataBuilder.md
+﻿# MetadataBuilder.md
 
 ## 📌 스크립트 설명
 `MetadataBuilder.cpp`는 메모리에서 읽어온 Il2Cpp 구조체 데이터를 기반으로 가짜 `global-metadata.dat` 파일을 생성하는 모듈입니다. Unity의 Il2Cpp 런타임이 요구하는 메타데이터 형식에 맞춰 바이너리 출력을 조립합니다. 이 파일은 Unity 디컴파일러(dnSpy 등)에서 분석 가능한 정적 형태의 메타데이터 파일로 사용됩니다.

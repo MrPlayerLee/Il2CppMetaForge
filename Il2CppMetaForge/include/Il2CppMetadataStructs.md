@@ -1,4 +1,4 @@
-# Il2CppMetadataStructs.md
+﻿# Il2CppMetadataStructs.md
 
 ## 📌 파일 위치
 

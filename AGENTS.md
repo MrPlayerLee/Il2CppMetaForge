@@ -1,4 +1,4 @@
-# AGENTS.md
+﻿# AGENTS.md
 
 ## 📂 프로젝트 파일티리
 
@@ -67,3 +67,26 @@ Il2CppMetaForge/
 - 잘못된 오프셀 또는 타입 정렬은 metadata 파시프 오류 또는 dnSpy crash를 유발할 수 있음
 - 목적은 `Assembly-CSharp.dll` 디컴파일을 가능케 하려는 **정적 분석용 도구 제작**임 (게임 개조 목적 아닌)
 
+---
+
+## 🧾 REPORTS.md
+
+이 문서는 Il2CppMetaForge 프로젝트의 진행 과정 중 발견된 문제점, 구현되지 않은 항목, 또는 계획은 있었지만 코드에 반영되지 않은 기능 등을 기록하는 리포트 문서입니다.
+
+### 📌 용도
+
+- 누락된 기능 또는 미구현된 섹션을 Codex나 후속 개발자가 파악할 수 있도록 기록
+- 스크립트 상에서 예외 처리가 부족한 부분, 추후 개선이 필요한 로직 등도 기술
+- 추적 가능한 버그 및 실행 중 에러 발생 위치에 대한 간단한 로그 역할
+
+### 🛠 주요 내용 예시
+
+- `WriteImageDefinitions()` 함수는 현재 구현되지 않았으며, `Il2CppImageDefinition` 출력 로직은 향후 확장 예정
+- `main.cpp`에서는 `Set*()` 계열 함수들이 호출되지 않아 기본 `global-metadata.dat`는 헤더만 출력됨
+- `MemoryReader::LoadMetadataPointers()`는 현재 오프셋을 하드코딩하고 있어, 동적 스캐닝 또는 config 기반 확장이 필요함
+- CLI 인자 처리 시 GameAssembly.dll 경로 누락 시 에러 메시지 외 종료되며, 유저 가이드는 없음
+
+### 🔍 활용 방법
+
+- Codex나 GPT가 테스트 중 오류를 발견하거나,
+- 개발자가 직접 기능 보강을 위해 TODO 리스트화할 항목이 생기면 이곳에 기록
