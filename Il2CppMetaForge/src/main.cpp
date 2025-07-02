@@ -34,8 +34,13 @@ int main(int argc, char* argv[])
     // 더미 데이터 주입
     std::vector<Il2CppTypeDefinition> types(1);
     std::vector<Il2CppMethodDefinition> methods(1);
+
     std::vector<Il2CppStringLiteral> literals(1);
-    std::vector<char> literalData(4, '\0');
+    literals[0].length = 4;
+    literals[0].dataIndex = 0;
+
+    std::vector<char> literalData = {'T', 'e', 's', 't', '\0'};
+
     std::vector<Il2CppMetadataUsage> usages(1);
     std::vector<Il2CppImageDefinition> images(1);
 
