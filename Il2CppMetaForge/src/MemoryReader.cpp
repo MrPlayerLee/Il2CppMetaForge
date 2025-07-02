@@ -1,6 +1,5 @@
-// MemoryReader.cpp
+﻿// MemoryReader.cpp
 #include "MemoryReader.h"
-#include <windows.h>
 #include <iostream>
 #include <fstream>
 
