@@ -5,16 +5,19 @@
 
 ---
 
-## 🎯 목표
-- `GameAssembly.dll` 내 `.data` 섹션에 위치한 다음과 같은 Il2Cpp 메타데이터 포인터들을 안전하게 읽어오는 것:
-  - `ptr_CodeRegistration`
-  - `ptr_MetadataRegistration`
-  - `typeDefinitions`
-  - `methodDefinitions`
-  - `stringLiteralTable`
-  - `metadataUsages`
-  - `metadataUsagesCount`
-  - `imageDefinitionsCount`
+## 📌 `.data` 섹션 포인터 오프셋 대응표 (MemoryReader.cpp 기준)
+
+```cpp
+// MemoryReader::LoadMetadataPointers() 내부
+typeDefinitions         = ReadPointer(file, RvaToFileOffset(0x18D461A90));  // -> typeDefinitions
+methodDefinitions       = ReadPointer(file, RvaToFileOffset(0x18D461A98));  // -> methodDefinitions
+stringLiteralTable      = ReadPointer(file, RvaToFileOffset(0x18D461AA0));  // -> stringLiteralTable
+metadataUsages          = ReadPointer(file, RvaToFileOffset(0x18D461AC8));  // -> metadataUsages
+metadataUsagesCount     = ReadPointer(file, RvaToFileOffset(0x18D461AD8));  // -> metadataUsagesCount
+imageDefinitionsCount   = ReadPointer(file, RvaToFileOffset(0x18D461AC0));  // -> imageDefinitionsCount
+```
+
+> 위 오프셋 값은 MabinogiMobile 전용으로 하드코딩되어 있으며, Unity Il2Cpp v31 기준 `.data` 섹션에 위치한 메타데이터 포인터입니다.
 
 이들 값을 기반으로 이후 metadata 파일 조립에 필요한 원천 정보를 제공합니다.
 

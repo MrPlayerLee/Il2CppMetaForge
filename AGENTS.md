@@ -90,3 +90,38 @@ Il2CppMetaForge/
 
 - Codex나 GPT가 테스트 중 오류를 발견하거나,
 - 개발자가 직접 기능 보강을 위해 TODO 리스트화할 항목이 생기면 이곳에 기록
+
+---
+
+## 🏗️ 크로스플랫폼 빌드 시스템 (CMake)
+
+본 프로젝트는 Windows (Visual Studio 2022)와 Linux (GCC, Clang) 양쪽에서 동일하게 빌드 가능한 CMake 기반 크로스플랫폼 구조를 사용합니다.
+
+### 📂 CMake 파일 위치
+```
+Il2CppMetaForge/
+└── Il2CppMetaForge/
+    ├── CMakeLists.txt          ← CMake 설정 파일
+    ├── build.bat               ← Windows 자동 빌드 스크립트
+    ├── build.sh                ← Linux 자동 빌드 스크립트
+```
+
+### 🧱 빌드 방법
+
+#### Windows (Visual Studio 환경)
+```cmd
+cd Il2CppMetaForge\Il2CppMetaForge
+build.bat
+```
+
+#### Linux / Codex 환경
+```bash
+cd Il2CppMetaForge/Il2CppMetaForge
+chmod +x build.sh
+./build.sh
+```
+
+### ⚙️ 특징
+- CMake에서 `PLATFORM_WINDOWS` 또는 `PLATFORM_LINUX` 매크로 자동 정의
+- `include/` 및 `src/` 디렉토리 자동 인식
+- Visual Studio 프로젝트(.sln)와 완전히 병행 사용 가능
