@@ -26,6 +26,11 @@ void MetadataBuilder::SetMetadataUsages(const std::vector<Il2CppMetadataUsage>& 
     metadataUsages = usages;
 }
 
+void MetadataBuilder::SetImageDefinitions(const std::vector<Il2CppImageDefinition>& images)
+{
+    imageDefinitions = images;
+}
+
 void MetadataBuilder::Build()
 {
     std::ofstream file(outputPath, std::ios::binary);
@@ -80,6 +85,7 @@ void MetadataBuilder::WriteMetadataUsages(std::ofstream& file)
 
 void MetadataBuilder::WriteImageDefinitions(std::ofstream& file)
 {
-    // Placeholder for image definitions output
+    for (const auto& img : imageDefinitions)
+        file.write(reinterpret_cast<const char*>(&img), sizeof(img));
 }
 
