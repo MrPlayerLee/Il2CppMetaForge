@@ -4,6 +4,11 @@
 #include <iostream>
 #include <fstream>
 
+MemoryReader::MemoryReader(uintptr_t baseVA, uintptr_t dataVA, uint64_t fileOffset)
+{
+    Initialize(baseVA, dataVA, fileOffset);
+}
+
 uintptr_t MemoryReader::ReadPointer(std::ifstream& file, uint64_t fileOffset)
 {
     file.seekg(fileOffset, std::ios::beg);
@@ -24,7 +29,7 @@ uintptr_t MemoryReader::RvaToFileOffset(uintptr_t rva)
     return rva - dataVirtualAddress + dataSectionOffset;
 }
 
-// ¿¹½Ã ÁÖ¼Ò ¼öµ¿ ¼³Á¤
+// Â¿Â¹Â½Ãƒ ÃÃ–Â¼Ã’ Â¼Ã¶ÂµÂ¿ Â¼Â³ÃÂ¤
 void MemoryReader::LoadMetadataPointers(std::ifstream& file)
 {
     typeDefinitions = ReadPointer(file, RvaToFileOffset(0x18D461A90));
