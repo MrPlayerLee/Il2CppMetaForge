@@ -29,7 +29,7 @@ uintptr_t MemoryReader::RvaToFileOffset(uintptr_t rva)
     return rva - dataVirtualAddress + dataSectionOffset;
 }
 
-// ¿¹½Ã ÁÖ¼Ò ¼öµ¿ ¼³Á¤
+// 메타데이터 포인터 수동 설정
 void MemoryReader::LoadMetadataPointers(std::ifstream& file)
 {
     typeDefinitions = ReadPointer(file, RvaToFileOffset(0x18D461A90));
