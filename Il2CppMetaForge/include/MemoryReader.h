@@ -25,6 +25,11 @@ public:
     uintptr_t GetPropertyDefinitions() const;
     uint32_t GetPropertyDefinitionsCount() const;
 
+    uintptr_t GetParameterDefinitions() const;
+    uint32_t GetParameterDefinitionsCount() const;
+    uintptr_t GetAssemblyDefinitions() const;
+    uint32_t GetAssemblyDefinitionsCount() const;
+
     uint32_t GetTypeDefinitionsCount() const;
     uint32_t GetMethodDefinitionsCount() const;
 
@@ -57,6 +62,12 @@ private:
     uint32_t fieldDefinitionsCount{0};
     uintptr_t propertyDefinitions{0};
     uint32_t propertyDefinitionsCount{0};
+
+    // 파라미터와 어셈블리 정의 포인터 및 개수
+    uintptr_t parameterDefinitions{0};
+    uint32_t parameterDefinitionsCount{0};
+    uintptr_t assemblyDefinitions{0};
+    uint32_t assemblyDefinitionsCount{0};
 };
 
 template <typename T>

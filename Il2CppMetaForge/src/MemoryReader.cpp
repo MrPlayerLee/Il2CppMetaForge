@@ -44,6 +44,11 @@ void MemoryReader::LoadMetadataPointers(std::ifstream& file)
     metadataUsages = ReadPointer(file, RvaToFileOffset(0x18D461AE0));
     metadataUsagesCount = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461AE8));
     imageDefinitionsCount = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461AF0));
+
+    parameterDefinitions = ReadPointer(file, RvaToFileOffset(0x18D461AF8));
+    parameterDefinitionsCount = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461B00));
+    assemblyDefinitions = ReadPointer(file, RvaToFileOffset(0x18D461B08));
+    assemblyDefinitionsCount = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461B10));
 }
 
 uintptr_t MemoryReader::GetTypeDefinitions() const { return typeDefinitions; }
@@ -57,5 +62,9 @@ uintptr_t MemoryReader::GetFieldDefinitions() const { return fieldDefinitions; }
 uint32_t MemoryReader::GetFieldDefinitionsCount() const { return fieldDefinitionsCount; }
 uintptr_t MemoryReader::GetPropertyDefinitions() const { return propertyDefinitions; }
 uint32_t MemoryReader::GetPropertyDefinitionsCount() const { return propertyDefinitionsCount; }
+uintptr_t MemoryReader::GetParameterDefinitions() const { return parameterDefinitions; }
+uint32_t MemoryReader::GetParameterDefinitionsCount() const { return parameterDefinitionsCount; }
+uintptr_t MemoryReader::GetAssemblyDefinitions() const { return assemblyDefinitions; }
+uint32_t MemoryReader::GetAssemblyDefinitionsCount() const { return assemblyDefinitionsCount; }
 uint32_t MemoryReader::GetTypeDefinitionsCount() const { return typeDefinitionsCount; }
 uint32_t MemoryReader::GetMethodDefinitionsCount() const { return methodDefinitionsCount; }
