@@ -37,9 +37,13 @@ void MemoryReader::LoadMetadataPointers(std::ifstream& file)
     stringLiteralTableCount = ReadPointer(file, RvaToFileOffset(0x18D461AA8));
     typeDefinitionsCount = ReadPointer(file, RvaToFileOffset(0x18D461AB0));
     methodDefinitionsCount = ReadPointer(file, RvaToFileOffset(0x18D461AB8));
-    metadataUsages = ReadPointer(file, RvaToFileOffset(0x18D461AC8));
-    metadataUsagesCount = ReadPointer(file, RvaToFileOffset(0x18D461AD8));
-    imageDefinitionsCount = ReadPointer(file, RvaToFileOffset(0x18D461AC0));
+    fieldDefinitions = ReadPointer(file, RvaToFileOffset(0x18D461AC0));
+    fieldDefinitionsCount = ReadPointer(file, RvaToFileOffset(0x18D461AC8));
+    propertyDefinitions = ReadPointer(file, RvaToFileOffset(0x18D461AD0));
+    propertyDefinitionsCount = ReadPointer(file, RvaToFileOffset(0x18D461AD8));
+    metadataUsages = ReadPointer(file, RvaToFileOffset(0x18D461AE0));
+    metadataUsagesCount = ReadPointer(file, RvaToFileOffset(0x18D461AE8));
+    imageDefinitionsCount = ReadPointer(file, RvaToFileOffset(0x18D461AF0));
 }
 
 uintptr_t MemoryReader::GetTypeDefinitions() const { return typeDefinitions; }
@@ -49,5 +53,9 @@ uintptr_t MemoryReader::GetStringLiteralTableCount() const { return stringLitera
 uintptr_t MemoryReader::GetMetadataUsages() const { return metadataUsages; }
 uintptr_t MemoryReader::GetMetadataUsagesCount() const { return metadataUsagesCount; }
 uintptr_t MemoryReader::GetImageDefinitionsCount() const { return imageDefinitionsCount; }
+uintptr_t MemoryReader::GetFieldDefinitions() const { return fieldDefinitions; }
+uintptr_t MemoryReader::GetFieldDefinitionsCount() const { return fieldDefinitionsCount; }
+uintptr_t MemoryReader::GetPropertyDefinitions() const { return propertyDefinitions; }
+uintptr_t MemoryReader::GetPropertyDefinitionsCount() const { return propertyDefinitionsCount; }
 uintptr_t MemoryReader::GetTypeDefinitionsCount() const { return typeDefinitionsCount; }
 uintptr_t MemoryReader::GetMethodDefinitionsCount() const { return methodDefinitionsCount; }
