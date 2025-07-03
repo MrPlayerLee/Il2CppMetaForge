@@ -34,28 +34,28 @@ void MemoryReader::LoadMetadataPointers(std::ifstream& file)
     typeDefinitions = ReadPointer(file, RvaToFileOffset(0x18D461A90));
     methodDefinitions = ReadPointer(file, RvaToFileOffset(0x18D461A98));
     stringLiteralTable = ReadPointer(file, RvaToFileOffset(0x18D461AA0));
-    stringLiteralTableCount = ReadPointer(file, RvaToFileOffset(0x18D461AA8));
-    typeDefinitionsCount = ReadPointer(file, RvaToFileOffset(0x18D461AB0));
-    methodDefinitionsCount = ReadPointer(file, RvaToFileOffset(0x18D461AB8));
+    stringLiteralTableCount = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461AA8));
+    typeDefinitionsCount = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461AB0));
+    methodDefinitionsCount = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461AB8));
     fieldDefinitions = ReadPointer(file, RvaToFileOffset(0x18D461AC0));
-    fieldDefinitionsCount = ReadPointer(file, RvaToFileOffset(0x18D461AC8));
+    fieldDefinitionsCount = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461AC8));
     propertyDefinitions = ReadPointer(file, RvaToFileOffset(0x18D461AD0));
-    propertyDefinitionsCount = ReadPointer(file, RvaToFileOffset(0x18D461AD8));
+    propertyDefinitionsCount = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461AD8));
     metadataUsages = ReadPointer(file, RvaToFileOffset(0x18D461AE0));
-    metadataUsagesCount = ReadPointer(file, RvaToFileOffset(0x18D461AE8));
-    imageDefinitionsCount = ReadPointer(file, RvaToFileOffset(0x18D461AF0));
+    metadataUsagesCount = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461AE8));
+    imageDefinitionsCount = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461AF0));
 }
 
 uintptr_t MemoryReader::GetTypeDefinitions() const { return typeDefinitions; }
 uintptr_t MemoryReader::GetMethodDefinitions() const { return methodDefinitions; }
 uintptr_t MemoryReader::GetStringLiteralTable() const { return stringLiteralTable; }
-uintptr_t MemoryReader::GetStringLiteralTableCount() const { return stringLiteralTableCount; }
+uint32_t MemoryReader::GetStringLiteralTableCount() const { return stringLiteralTableCount; }
 uintptr_t MemoryReader::GetMetadataUsages() const { return metadataUsages; }
-uintptr_t MemoryReader::GetMetadataUsagesCount() const { return metadataUsagesCount; }
-uintptr_t MemoryReader::GetImageDefinitionsCount() const { return imageDefinitionsCount; }
+uint32_t MemoryReader::GetMetadataUsagesCount() const { return metadataUsagesCount; }
+uint32_t MemoryReader::GetImageDefinitionsCount() const { return imageDefinitionsCount; }
 uintptr_t MemoryReader::GetFieldDefinitions() const { return fieldDefinitions; }
-uintptr_t MemoryReader::GetFieldDefinitionsCount() const { return fieldDefinitionsCount; }
+uint32_t MemoryReader::GetFieldDefinitionsCount() const { return fieldDefinitionsCount; }
 uintptr_t MemoryReader::GetPropertyDefinitions() const { return propertyDefinitions; }
-uintptr_t MemoryReader::GetPropertyDefinitionsCount() const { return propertyDefinitionsCount; }
-uintptr_t MemoryReader::GetTypeDefinitionsCount() const { return typeDefinitionsCount; }
-uintptr_t MemoryReader::GetMethodDefinitionsCount() const { return methodDefinitionsCount; }
+uint32_t MemoryReader::GetPropertyDefinitionsCount() const { return propertyDefinitionsCount; }
+uint32_t MemoryReader::GetTypeDefinitionsCount() const { return typeDefinitionsCount; }
+uint32_t MemoryReader::GetMethodDefinitionsCount() const { return methodDefinitionsCount; }

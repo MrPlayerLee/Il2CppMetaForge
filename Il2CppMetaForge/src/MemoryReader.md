@@ -12,16 +12,16 @@
 typeDefinitions         = ReadPointer(file, RvaToFileOffset(0x18D461A90));  // -> typeDefinitions
 methodDefinitions       = ReadPointer(file, RvaToFileOffset(0x18D461A98));  // -> methodDefinitions
 stringLiteralTable      = ReadPointer(file, RvaToFileOffset(0x18D461AA0));  // -> stringLiteralTable
-stringLiteralTableCount = ReadPointer(file, RvaToFileOffset(0x18D461AA8));  // -> stringLiteralTableCount
-typeDefinitionsCount    = ReadPointer(file, RvaToFileOffset(0x18D461AB0));  // -> typeDefinitionsCount
-methodDefinitionsCount  = ReadPointer(file, RvaToFileOffset(0x18D461AB8));  // -> methodDefinitionsCount
+stringLiteralTableCount = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461AA8));  // -> stringLiteralTableCount
+typeDefinitionsCount    = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461AB0));  // -> typeDefinitionsCount
+methodDefinitionsCount  = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461AB8));  // -> methodDefinitionsCount
 fieldDefinitions        = ReadPointer(file, RvaToFileOffset(0x18D461AC0));  // -> fieldDefinitions
-fieldDefinitionsCount   = ReadPointer(file, RvaToFileOffset(0x18D461AC8));  // -> fieldDefinitionsCount
+fieldDefinitionsCount   = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461AC8));  // -> fieldDefinitionsCount
 propertyDefinitions     = ReadPointer(file, RvaToFileOffset(0x18D461AD0));  // -> propertyDefinitions
-propertyDefinitionsCount= ReadPointer(file, RvaToFileOffset(0x18D461AD8));  // -> propertyDefinitionsCount
+propertyDefinitionsCount= ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461AD8));  // -> propertyDefinitionsCount
 metadataUsages          = ReadPointer(file, RvaToFileOffset(0x18D461AE0));  // -> metadataUsages
-metadataUsagesCount     = ReadPointer(file, RvaToFileOffset(0x18D461AE8));  // -> metadataUsagesCount
-imageDefinitionsCount   = ReadPointer(file, RvaToFileOffset(0x18D461AF0));  // -> imageDefinitionsCount
+metadataUsagesCount     = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461AE8));  // -> metadataUsagesCount
+imageDefinitionsCount   = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461AF0));  // -> imageDefinitionsCount
 ```
 
 > 위 오프셋 값은 MabinogiMobile 전용으로 하드코딩되어 있으며, Unity Il2Cpp v31 기준 `.data` 섹션에 위치한 메타데이터 포인터입니다.

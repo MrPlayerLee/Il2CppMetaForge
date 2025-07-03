@@ -41,31 +41,31 @@ int main(int argc, char* argv[])
         stringTable.insert(stringTable.end(), n, n + len + 1);
     }
 
-    uint32_t typeCount = reader.ReadUInt32(gameAssembly, reader.GetTypeDefinitionsCount());
+    uint32_t typeCount = reader.GetTypeDefinitionsCount();
     std::vector<Il2CppTypeDefinition> types = reader.ReadStructArray<Il2CppTypeDefinition>(
         gameAssembly,
         reader.RvaToFileOffset(reader.GetTypeDefinitions()),
         typeCount);
 
-    uint32_t methodCount = reader.ReadUInt32(gameAssembly, reader.GetMethodDefinitionsCount());
+    uint32_t methodCount = reader.GetMethodDefinitionsCount();
     std::vector<Il2CppMethodDefinition> methods = reader.ReadStructArray<Il2CppMethodDefinition>(
         gameAssembly,
         reader.RvaToFileOffset(reader.GetMethodDefinitions()),
         methodCount);
 
-    uint32_t fieldCount = reader.ReadUInt32(gameAssembly, reader.GetFieldDefinitionsCount());
+    uint32_t fieldCount = reader.GetFieldDefinitionsCount();
     std::vector<Il2CppFieldDefinition> fields = reader.ReadStructArray<Il2CppFieldDefinition>(
         gameAssembly,
         reader.RvaToFileOffset(reader.GetFieldDefinitions()),
         fieldCount);
 
-    uint32_t propertyCount = reader.ReadUInt32(gameAssembly, reader.GetPropertyDefinitionsCount());
+    uint32_t propertyCount = reader.GetPropertyDefinitionsCount();
     std::vector<Il2CppPropertyDefinition> properties = reader.ReadStructArray<Il2CppPropertyDefinition>(
         gameAssembly,
         reader.RvaToFileOffset(reader.GetPropertyDefinitions()),
         propertyCount);
 
-    uint32_t literalCount = reader.ReadUInt32(gameAssembly, reader.GetStringLiteralTableCount());
+    uint32_t literalCount = reader.GetStringLiteralTableCount();
     std::vector<Il2CppStringLiteral> literals = reader.ReadStructArray<Il2CppStringLiteral>(
         gameAssembly,
         reader.RvaToFileOffset(reader.GetStringLiteralTable()),
@@ -79,15 +79,11 @@ int main(int argc, char* argv[])
     gameAssembly.seekg(literalDataOffset, std::ios::beg);
     gameAssembly.read(literalData.data(), literalDataSize);
 
-    std::vector<Il2CppMetadataUsage> usages;
-    uint32_t usageCount = reader.ReadUInt32(gameAssembly, reader.GetMetadataUsagesCount());
-    uintptr_t usagePtr = reader.GetMetadataUsages();
-    if (usageCount > 0)
-    {
-        Il2CppMetadataUsage usage = reader.ReadStruct<Il2CppMetadataUsage>(gameAssembly,
-            reader.RvaToFileOffset(usagePtr));
-        usages.push_back(usage);
-    }
+    uint32_t usageCount = reader.GetMetadataUsagesCount();
+    std::vector<Il2CppMetadataUsage> usages = reader.ReadStructArray<Il2CppMetadataUsage>(
+        gameAssembly,
+        reader.RvaToFileOffset(reader.GetMetadataUsages()),
+        usageCount);
 
     std::vector<Il2CppImageDefinition> images(1);
     images[0] = {};

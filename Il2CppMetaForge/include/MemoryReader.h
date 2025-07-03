@@ -16,17 +16,17 @@ public:
     uintptr_t GetTypeDefinitions() const;
     uintptr_t GetMethodDefinitions() const;
     uintptr_t GetStringLiteralTable() const;
-    uintptr_t GetStringLiteralTableCount() const;
+    uint32_t GetStringLiteralTableCount() const;
     uintptr_t GetMetadataUsages() const;
-    uintptr_t GetMetadataUsagesCount() const;
-    uintptr_t GetImageDefinitionsCount() const;
+    uint32_t GetMetadataUsagesCount() const;
+    uint32_t GetImageDefinitionsCount() const;
     uintptr_t GetFieldDefinitions() const;
-    uintptr_t GetFieldDefinitionsCount() const;
+    uint32_t GetFieldDefinitionsCount() const;
     uintptr_t GetPropertyDefinitions() const;
-    uintptr_t GetPropertyDefinitionsCount() const;
+    uint32_t GetPropertyDefinitionsCount() const;
 
-    uintptr_t GetTypeDefinitionsCount() const;
-    uintptr_t GetMethodDefinitionsCount() const;
+    uint32_t GetTypeDefinitionsCount() const;
+    uint32_t GetMethodDefinitionsCount() const;
 
     uintptr_t ReadPointer(std::ifstream& file, uint64_t fileOffset);
     template <typename T>
@@ -45,18 +45,18 @@ private:
     uintptr_t typeDefinitions{0};
     uintptr_t methodDefinitions{0};
     uintptr_t stringLiteralTable{0};
-    uintptr_t stringLiteralTableCount{0};
+    uint32_t stringLiteralTableCount{0};
     uintptr_t metadataUsages{0};
-    uintptr_t metadataUsagesCount{0};
-    uintptr_t imageDefinitionsCount{0};
-    uintptr_t typeDefinitionsCount{0};
-    uintptr_t methodDefinitionsCount{0};
+    uint32_t metadataUsagesCount{0};
+    uint32_t imageDefinitionsCount{0};
+    uint32_t typeDefinitionsCount{0};
+    uint32_t methodDefinitionsCount{0};
 
     // 필드와 프로퍼티 정의 데이터 포인터와 개수
     uintptr_t fieldDefinitions{0};
-    uintptr_t fieldDefinitionsCount{0};
+    uint32_t fieldDefinitionsCount{0};
     uintptr_t propertyDefinitions{0};
-    uintptr_t propertyDefinitionsCount{0};
+    uint32_t propertyDefinitionsCount{0};
 };
 
 template <typename T>
