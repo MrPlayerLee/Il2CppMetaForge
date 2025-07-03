@@ -10,13 +10,13 @@ include/Il2CppMetadataStructs.h
 
 이 헤더 파일은 Unity Il2Cpp 메타데이터 구조체들의 정의를 담고 있습니다. 주로 Unity 2021+ / Il2Cpp v31 기준으로 작성되며, `global-metadata.dat` 를 생성하기 위한 구조 기반을 제공합니다.
 
-Il2Cpp의 구조체는 `typeDefinitions`, `methodDefinitions`, `stringLiteralTable`, `metadataUsages`, `metadataUsagesCount`, `imageDefinitionsCount` 등의 필드를 통해 Unity 런타임과 상호작용합니다. 이 구조를 정확히 반영함으로써 빌더가 생성하는 metadata 파일의 정합성을 확보할 수 있습니다.
+Il2Cpp의 구조체는 `typeDefinitions`, `methodDefinitions`, `stringLiteralTable`, `metadataUsages` 및 `imageDefinitions` 등의 테이블을 통해 Unity 런타임과 상호작용합니다. 각 테이블의 오프셋과 개수는 `Il2CppGlobalMetadataHeader`에 기록되어 빌더가 생성하는 metadata 파일의 정합성을 확보합니다.
 
 
 ## 🛠️ 포함된 구조체들
 
 - `Il2CppGlobalMetadataHeader`
-  - metadata 파일의 헤더이며, 테이블 위치와 크기를 명시합니다.
+  - metadata 파일의 헤더이며, 각 테이블의 오프셋과 개수를 기록합니다. 예를 들어 `metadataUsageOffset`, `metadataUsageCount`, `imageDefinitionOffset`, `imageDefinitionCount` 등이 포함됩니다.
 - `Il2CppTypeDefinition`
   - 클래스와 인터페이스에 대한 정의입니다.
 - `Il2CppMethodDefinition`

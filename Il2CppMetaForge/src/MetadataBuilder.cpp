@@ -77,6 +77,14 @@ void MetadataBuilder::WriteMetadataHeader(std::ofstream& file)
     header.typeDefinitionCount = static_cast<uint32_t>(typeDefinitions.size());
     offset += static_cast<uint32_t>(typeDefinitions.size() * sizeof(Il2CppTypeDefinition));
 
+    header.metadataUsageOffset = offset;
+    header.metadataUsageCount = static_cast<uint32_t>(metadataUsages.size());
+    offset += static_cast<uint32_t>(metadataUsages.size() * sizeof(Il2CppMetadataUsage));
+
+    header.imageDefinitionOffset = offset;
+    header.imageDefinitionCount = static_cast<uint32_t>(imageDefinitions.size());
+    offset += static_cast<uint32_t>(imageDefinitions.size() * sizeof(Il2CppImageDefinition));
+
     file.write(reinterpret_cast<const char*>(&header), sizeof(header));
 }
 
