@@ -25,10 +25,10 @@ Il2CppMetaForge는 Unity 게임(마비노기 모바일)의 `.data` 섹션에서 
 ## 구현 현황과 한계
 
 현재 `MemoryReader`와 `MetadataBuilder`는 기본적인 구조체 정의와 각 섹션 쓰기 함수를 포함합니다.
-`FieldDefinitions`, `PropertyDefinitions`, `ParameterDefinitions`, `AssemblyDefinitions` 섹션까지 함수 형태는 갖추었으나 실제 GameAssembly.dll에서 읽어 올 데이터가 제한적입니다.
-`WriteImageDefinitions()` 또한 호출은 이루어지지만, 실질적인 `Il2CppImageDefinition` 값이 없으므로 출력되는 데이터가 의미가 없습니다.
+최근 업데이트로 `ParameterDefinitions`와 `AssemblyDefinitions` 테이블을 GameAssembly.dll에서 읽어와 채우도록 개선되었습니다.
+하지만 `WriteImageDefinitions()`는 여전히 실제 `Il2CppImageDefinition` 데이터를 사용하지 못해 출력 결과가 불완전합니다.
 
-이로 인해 생성된 `global-metadata.dat` 파일은 약 150바이트 수준의 헤더와 문자열 영역만을 포함하며, 필드·메서드 등 핵심 테이블 정보가 빈 상태로 남습니다.
+향상된 로직 덕분에 `global-metadata.dat`에는 파라미터 및 어셈블리 정보가 포함되지만, 일부 테이블이 비어 있어 완전한 메타데이터와는 거리가 있습니다.
 
 ## Il2CppDumper 실행 가능 여부
 
