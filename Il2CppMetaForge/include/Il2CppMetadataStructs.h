@@ -84,6 +84,9 @@ struct Il2CppGlobalMetadataHeader
     uint32_t stringLiteralDataOffset;
     uint32_t stringLiteralDataCount;
 
+    uint32_t stringLiteralDataOffset;
+    uint32_t stringLiteralDataCount;
+
     uint32_t stringOffset;
     int32_t  stringSize;
 
