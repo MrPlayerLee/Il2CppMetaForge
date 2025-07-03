@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Il2CppMetadataStructs.h"
 #include <string>

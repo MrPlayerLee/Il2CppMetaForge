@@ -1,4 +1,4 @@
-﻿// MemoryReader.cpp
+// MemoryReader.cpp
 #include "MemoryReader.h"
 #include <iostream>
 #include <fstream>
