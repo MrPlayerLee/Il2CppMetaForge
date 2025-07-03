@@ -35,6 +35,8 @@ public:
     template <typename T>
     std::vector<T> ReadStructArray(std::ifstream& file, uint64_t fileOffset, size_t count);
 
+    uint32_t ReadUInt32(std::ifstream& file, uintptr_t rva);
+
 private:
     uintptr_t baseVirtualAddress{0};
     uintptr_t dataVirtualAddress{0};
@@ -49,6 +51,8 @@ private:
     uintptr_t imageDefinitionsCount{0};
     uintptr_t typeDefinitionsCount{0};
     uintptr_t methodDefinitionsCount{0};
+
+    // 필드와 프로퍼티 정의 데이터 포인터와 개수
     uintptr_t fieldDefinitions{0};
     uintptr_t fieldDefinitionsCount{0};
     uintptr_t propertyDefinitions{0};
@@ -71,5 +75,10 @@ std::vector<T> MemoryReader::ReadStructArray(std::ifstream& file, uint64_t fileO
     file.seekg(fileOffset, std::ios::beg);
     file.read(reinterpret_cast<char*>(values.data()), sizeof(T) * count);
     return values;
+}
+
+inline uint32_t MemoryReader::ReadUInt32(std::ifstream& file, uintptr_t rva)
+{
+    return ReadStruct<uint32_t>(file, RvaToFileOffset(rva));
 }
 

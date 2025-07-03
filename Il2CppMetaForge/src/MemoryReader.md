@@ -28,7 +28,18 @@ imageDefinitionsCount   = ReadPointer(file, RvaToFileOffset(0x18D461AF0));  // -
 
 이들 값을 기반으로 이후 metadata 파일 조립에 필요한 원천 정보를 제공합니다.
 
-추가로 임의 구조체를 손쉽게 읽어들이기 위한 템플릿 함수 `ReadStruct<T>`를 제공합니다.
+`fieldDefinitions` / `propertyDefinitions`와 각 카운트 값은
+`LoadMetadataPointers()` 호출 시 함께 읽어 들이며,
+`GetFieldDefinitions()`, `GetFieldDefinitionsCount()`,
+`GetPropertyDefinitions()`, `GetPropertyDefinitionsCount()`
+함수로 접근할 수 있습니다.
+
+이 포인터들은 `main.cpp`에서 배열 전체를 추출하는 데 사용되어
+`MetadataBuilder`의 `SetFieldDefinitions()`와
+`SetPropertyDefinitions()`로 전달됩니다.
+
+추가로 임의 구조체를 손쉽게 읽어들이기 위한 템플릿 함수 `ReadStruct<T>`와
+카운트 값을 간단히 얻기 위한 `ReadUInt32()` 헬퍼를 제공합니다.
 
 ---
 
