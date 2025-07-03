@@ -88,6 +88,12 @@ struct Il2CppGlobalMetadataHeader
     uint32_t methodDefinitionOffset;
     uint32_t methodDefinitionCount;
 
+    uint32_t fieldDefinitionOffset;
+    uint32_t fieldDefinitionCount;
+
+    uint32_t propertyDefinitionOffset;
+    uint32_t propertyDefinitionCount;
+
     uint32_t typeDefinitionOffset;
     uint32_t typeDefinitionCount;
 
