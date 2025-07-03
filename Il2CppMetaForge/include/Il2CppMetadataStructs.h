@@ -65,6 +65,45 @@ struct Il2CppPropertyDefinition
     uint32_t token;
 };
 
+// 메서드 파라미터 정의
+struct Il2CppParameterDefinition
+{
+    uint32_t nameIndex;
+    uint32_t typeIndex;
+    uint32_t customAttributeIndex;
+};
+
+// 어셈블리 정의
+struct Il2CppAssemblyDefinition
+{
+    uint32_t imageIndex;
+    uint32_t customAttributeIndex;
+    uint32_t referencedAssemblyStart;
+    uint32_t referencedAssemblyCount;
+    uint32_t anameIndex;
+};
+
+// 제네릭 컨테이너 정보
+struct Il2CppGenericContainer
+{
+    int32_t genericParameterStart;
+    int32_t ownerIndex;
+    int32_t type_argc;
+    uint32_t is_method;
+};
+
+// 제네릭 파라미터 정보
+struct Il2CppGenericParameter
+{
+    int16_t ownerIndex;
+    uint16_t flags;
+    uint32_t nameIndex;
+    uint32_t constraintsStart;
+    uint16_t constraintsCount;
+    uint16_t pad;
+    uint32_t num;
+};
+
 struct Il2CppStringLiteral
 {
     uint32_t length;
