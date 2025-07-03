@@ -70,7 +70,13 @@ struct Il2CppGlobalMetadataHeader
 
     uint32_t typeDefinitionOffset;
     uint32_t typeDefinitionCount;
-    // reserved
+
+    uint32_t metadataUsageOffset;
+    uint32_t metadataUsageCount;
+
+    uint32_t imageDefinitionOffset;
+    uint32_t imageDefinitionCount;
+    // reserved for future use
 };
 
 struct Il2CppMetadataUsage
