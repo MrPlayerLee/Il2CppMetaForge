@@ -81,6 +81,9 @@ struct Il2CppGlobalMetadataHeader
     uint32_t stringLiteralDataOffset;
     int32_t  stringLiteralDataSize;
 
+    uint32_t stringLiteralDataOffset;
+    uint32_t stringLiteralDataCount;
+
     uint32_t stringOffset;
     int32_t  stringSize;
 
@@ -100,62 +103,12 @@ struct Il2CppGlobalMetadataHeader
     int32_t  fieldMarshaledSizesOffset;
     int32_t  fieldMarshaledSizesSize;
 
-    uint32_t parametersOffset;
-    int32_t  parametersSize;
-    uint32_t fieldsOffset;
-    int32_t  fieldsSize;
-    uint32_t genericParametersOffset;
-    int32_t  genericParametersSize;
-    uint32_t genericParameterConstraintsOffset;
-    int32_t  genericParameterConstraintsSize;
-    uint32_t genericContainersOffset;
-    int32_t  genericContainersSize;
-    uint32_t nestedTypesOffset;
-    int32_t  nestedTypesSize;
-    uint32_t interfacesOffset;
-    int32_t  interfacesSize;
-    uint32_t vtableMethodsOffset;
-    int32_t  vtableMethodsSize;
-    int32_t  interfaceOffsetsOffset;
-    int32_t  interfaceOffsetsSize;
-    uint32_t typeDefinitionsOffset;
-    int32_t  typeDefinitionsSize;
-    uint32_t rgctxEntriesOffset;
-    int32_t  rgctxEntriesCount;
-    uint32_t imagesOffset;
-    int32_t  imagesSize;
+    uint32_t typeDefinitionOffset;
+    uint32_t typeDefinitionCount;
+
     uint32_t imageDefinitionOffset;
-    int32_t  imageDefinitionCount;
-    uint32_t assembliesOffset;
-    int32_t  assembliesSize;
-    uint32_t metadataUsageListsOffset;
-    int32_t  metadataUsageListsCount;
-    uint32_t metadataUsagePairsOffset;
-    int32_t  metadataUsagePairsCount;
-    uint32_t metadataUsageOffset;
-    int32_t  metadataUsageCount;
-    uint32_t fieldRefsOffset;
-    int32_t  fieldRefsSize;
-    int32_t  referencedAssembliesOffset;
-    int32_t  referencedAssembliesSize;
-    uint32_t attributesInfoOffset;
-    int32_t  attributesInfoCount;
-    uint32_t attributeTypesOffset;
-    int32_t  attributeTypesCount;
-    uint32_t attributeDataOffset;
-    int32_t  attributeDataSize;
-    uint32_t attributeDataRangeOffset;
-    int32_t  attributeDataRangeSize;
-    int32_t  unresolvedVirtualCallParameterTypesOffset;
-    int32_t  unresolvedVirtualCallParameterTypesSize;
-    int32_t  unresolvedVirtualCallParameterRangesOffset;
-    int32_t  unresolvedVirtualCallParameterRangesSize;
-    int32_t  windowsRuntimeTypeNamesOffset;
-    int32_t  windowsRuntimeTypeNamesSize;
-    int32_t  windowsRuntimeStringsOffset;
-    int32_t  windowsRuntimeStringsSize;
-    int32_t  exportedTypeDefinitionsOffset;
-    int32_t  exportedTypeDefinitionsSize;
+    uint32_t imageDefinitionCount;
+    // reserved
 };
 
 struct Il2CppMetadataUsage

@@ -28,6 +28,7 @@ private:
     void WriteFieldDefinitions(std::ofstream& file);
     void WritePropertyDefinitions(std::ofstream& file);
     void WriteStringLiteralTable(std::ofstream& file);
+    void WriteStringLiteralData(std::ofstream& file);
     void WriteStringTable(std::ofstream& file);
     void WriteMetadataUsages(std::ofstream& file);
     void WriteImageDefinitions(std::ofstream& file);
