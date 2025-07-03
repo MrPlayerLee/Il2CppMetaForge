@@ -62,6 +62,9 @@ struct Il2CppGlobalMetadataHeader
     uint32_t stringLiteralOffset;
     uint32_t stringLiteralCount;
 
+    uint32_t stringLiteralDataOffset;
+    uint32_t stringLiteralDataCount;
+
     uint32_t stringOffset;
     uint32_t stringCount;
 
@@ -70,6 +73,9 @@ struct Il2CppGlobalMetadataHeader
 
     uint32_t typeDefinitionOffset;
     uint32_t typeDefinitionCount;
+
+    uint32_t imageDefinitionOffset;
+    uint32_t imageDefinitionCount;
     // reserved
 };
 
