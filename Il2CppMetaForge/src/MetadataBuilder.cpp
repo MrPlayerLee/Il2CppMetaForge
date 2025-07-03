@@ -101,6 +101,9 @@ void MetadataBuilder::WriteMetadataHeader(std::ofstream& file)
     header.typeDefinitionCount = static_cast<uint32_t>(typeDefinitions.size());
     offset += static_cast<uint32_t>(typeDefinitions.size() * sizeof(Il2CppTypeDefinition));
 
+    // 메타데이터 사용 정보 테이블의 크기를 오프셋 계산에 포함한다
+    offset += static_cast<uint32_t>(metadataUsages.size() * sizeof(Il2CppMetadataUsage));
+
     header.imageDefinitionOffset = offset;
     header.imageDefinitionCount = static_cast<uint32_t>(imageDefinitions.size());
     offset += static_cast<uint32_t>(imageDefinitions.size() * sizeof(Il2CppImageDefinition));
