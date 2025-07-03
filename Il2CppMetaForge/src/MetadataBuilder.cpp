@@ -57,6 +57,8 @@ void MetadataBuilder::Build()
     WriteStringLiteralData(file);
     WriteStringTable(file);
     WriteMethodDefinitions(file);
+    WriteFieldDefinitions(file);
+    WritePropertyDefinitions(file);
     WriteTypeDefinitions(file);
     WriteMetadataUsages(file);
     WriteImageDefinitions(file);
@@ -86,6 +88,14 @@ void MetadataBuilder::WriteMetadataHeader(std::ofstream& file)
     header.methodDefinitionOffset = offset;
     header.methodDefinitionCount = static_cast<uint32_t>(methodDefinitions.size());
     offset += static_cast<uint32_t>(methodDefinitions.size() * sizeof(Il2CppMethodDefinition));
+
+    header.fieldDefinitionOffset = offset;
+    header.fieldDefinitionCount = static_cast<uint32_t>(fieldDefinitions.size());
+    offset += static_cast<uint32_t>(fieldDefinitions.size() * sizeof(Il2CppFieldDefinition));
+
+    header.propertyDefinitionOffset = offset;
+    header.propertyDefinitionCount = static_cast<uint32_t>(propertyDefinitions.size());
+    offset += static_cast<uint32_t>(propertyDefinitions.size() * sizeof(Il2CppPropertyDefinition));
 
     header.typeDefinitionOffset = offset;
     header.typeDefinitionCount = static_cast<uint32_t>(typeDefinitions.size());
