@@ -19,7 +19,9 @@ Il2CppMetaForge의 진입점으로서 전체 파이프라인을 제어합니다.
 3. 읽어 들인 카운트를 기반으로 `Il2CppFieldDefinition`과
    `Il2CppPropertyDefinition` 배열을 모두 추출한 뒤
    `MetadataBuilder`의 `SetFieldDefinitions()`와 `SetPropertyDefinitions()`에
-   전달합니다.
+   전달합니다. 이때 사용되는 포인터는 `MemoryReader`에서 제공하는
+   `GetFieldDefinitions()` / `GetFieldDefinitionsCount()`와
+   `GetPropertyDefinitions()` / `GetPropertyDefinitionsCount()`입니다.
 4. 이후 다른 테이블과 함께 `MetadataBuilder`에 설정하여
    `Il2CppMetadataHeader`를 작성하고 각 section을 출력합니다.
 5. 최종 `global-metadata.dat`를 디스크에 저장합니다.

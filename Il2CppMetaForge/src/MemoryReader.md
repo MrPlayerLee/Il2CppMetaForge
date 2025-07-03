@@ -34,6 +34,10 @@ imageDefinitionsCount   = ReadPointer(file, RvaToFileOffset(0x18D461AF0));  // -
 `GetPropertyDefinitions()`, `GetPropertyDefinitionsCount()`
 함수로 접근할 수 있습니다.
 
+이 포인터들은 `main.cpp`에서 배열 전체를 추출하는 데 사용되어
+`MetadataBuilder`의 `SetFieldDefinitions()`와
+`SetPropertyDefinitions()`로 전달됩니다.
+
 추가로 임의 구조체를 손쉽게 읽어들이기 위한 템플릿 함수 `ReadStruct<T>`를 제공합니다.
 
 ---

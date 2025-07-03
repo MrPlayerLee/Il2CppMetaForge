@@ -49,7 +49,8 @@ private:
     uintptr_t imageDefinitionsCount{0};
     uintptr_t typeDefinitionsCount{0};
     uintptr_t methodDefinitionsCount{0};
-    // 필드와 프로퍼티 정의 포인터 및 개수
+
+    // 필드와 프로퍼티 정의 데이터 포인터와 개수
     uintptr_t fieldDefinitions{0};
     uintptr_t fieldDefinitionsCount{0};
     uintptr_t propertyDefinitions{0};
