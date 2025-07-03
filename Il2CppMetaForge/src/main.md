@@ -10,13 +10,15 @@ Il2CppMetaForge의 진입점으로서 전체 파이프라인을 제어합니다.
 2. `MemoryReader` 인스턴스를 초기화하고, 지정된 주소로부터 다음 데이터를 로드합니다:
    - `typeDefinitions`
    - `methodDefinitions`
+   - `fieldDefinitions`
+   - `propertyDefinitions`
    - `stringLiteralTable`
    - `metadataUsages`
    - `metadataUsagesCount`
    - `imageDefinitionsCount`
 3. 메모리로부터 로드된 정보를 `MetadataBuilder`에 전달하여:
    - `Il2CppMetadataHeader`를 작성하고
-   - 필드별 section을 순차적으로 생성합니다.
+   - 필드, 프로퍼티를 포함한 각 section을 순차적으로 생성합니다.
 4. 최종 `global-metadata.dat`를 디스크에 저장합니다.
 
 ---

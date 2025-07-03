@@ -55,6 +55,20 @@ int main(int argc, char* argv[])
         reader.RvaToFileOffset(reader.GetMethodDefinitions()),
         methodCount);
 
+    uint32_t fieldCount = reader.ReadStruct<uint32_t>(gameAssembly,
+        reader.RvaToFileOffset(reader.GetFieldDefinitionsCount()));
+    std::vector<Il2CppFieldDefinition> fields = reader.ReadStructArray<Il2CppFieldDefinition>(
+        gameAssembly,
+        reader.RvaToFileOffset(reader.GetFieldDefinitions()),
+        fieldCount);
+
+    uint32_t propertyCount = reader.ReadStruct<uint32_t>(gameAssembly,
+        reader.RvaToFileOffset(reader.GetPropertyDefinitionsCount()));
+    std::vector<Il2CppPropertyDefinition> properties = reader.ReadStructArray<Il2CppPropertyDefinition>(
+        gameAssembly,
+        reader.RvaToFileOffset(reader.GetPropertyDefinitions()),
+        propertyCount);
+
     uint32_t literalCount = reader.ReadStruct<uint32_t>(gameAssembly,
         reader.RvaToFileOffset(reader.GetStringLiteralTableCount()));
     std::vector<Il2CppStringLiteral> literals = reader.ReadStructArray<Il2CppStringLiteral>(
@@ -89,6 +103,8 @@ int main(int argc, char* argv[])
 
     builder.SetTypeDefinitions(types);
     builder.SetMethodDefinitions(methods);
+    builder.SetFieldDefinitions(fields);
+    builder.SetPropertyDefinitions(properties);
     builder.SetStringLiterals(literals, literalData);
     builder.SetStrings(stringTable);
     builder.SetMetadataUsages(usages);

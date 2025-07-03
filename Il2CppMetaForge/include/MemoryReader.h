@@ -20,6 +20,10 @@ public:
     uintptr_t GetMetadataUsages() const;
     uintptr_t GetMetadataUsagesCount() const;
     uintptr_t GetImageDefinitionsCount() const;
+    uintptr_t GetFieldDefinitions() const;
+    uintptr_t GetFieldDefinitionsCount() const;
+    uintptr_t GetPropertyDefinitions() const;
+    uintptr_t GetPropertyDefinitionsCount() const;
 
     uintptr_t GetTypeDefinitionsCount() const;
     uintptr_t GetMethodDefinitionsCount() const;
@@ -45,6 +49,10 @@ private:
     uintptr_t imageDefinitionsCount{0};
     uintptr_t typeDefinitionsCount{0};
     uintptr_t methodDefinitionsCount{0};
+    uintptr_t fieldDefinitions{0};
+    uintptr_t fieldDefinitionsCount{0};
+    uintptr_t propertyDefinitions{0};
+    uintptr_t propertyDefinitionsCount{0};
 };
 
 template <typename T>
