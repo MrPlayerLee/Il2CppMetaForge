@@ -16,7 +16,7 @@ Il2CppMetaForge의 진입점으로서 전체 파이프라인을 제어합니다.
    - `metadataUsages`
    - `metadataUsagesCount`
    - `imageDefinitionsCount`
-3. 읽어 들인 카운트를 기반으로 `Il2CppFieldDefinition`과
+3. `ReadUInt32()` 헬퍼로 카운트를 읽은 뒤 `Il2CppFieldDefinition`과
    `Il2CppPropertyDefinition` 배열을 모두 추출한 뒤
    `MetadataBuilder`의 `SetFieldDefinitions()`와 `SetPropertyDefinitions()`에
    전달합니다. 이때 사용되는 포인터는 `MemoryReader`에서 제공하는

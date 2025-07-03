@@ -38,7 +38,8 @@ imageDefinitionsCount   = ReadPointer(file, RvaToFileOffset(0x18D461AF0));  // -
 `MetadataBuilder`의 `SetFieldDefinitions()`와
 `SetPropertyDefinitions()`로 전달됩니다.
 
-추가로 임의 구조체를 손쉽게 읽어들이기 위한 템플릿 함수 `ReadStruct<T>`를 제공합니다.
+추가로 임의 구조체를 손쉽게 읽어들이기 위한 템플릿 함수 `ReadStruct<T>`와
+카운트 값을 간단히 얻기 위한 `ReadUInt32()` 헬퍼를 제공합니다.
 
 ---
 

@@ -35,6 +35,8 @@ public:
     template <typename T>
     std::vector<T> ReadStructArray(std::ifstream& file, uint64_t fileOffset, size_t count);
 
+    uint32_t ReadUInt32(std::ifstream& file, uintptr_t rva);
+
 private:
     uintptr_t baseVirtualAddress{0};
     uintptr_t dataVirtualAddress{0};
@@ -73,5 +75,10 @@ std::vector<T> MemoryReader::ReadStructArray(std::ifstream& file, uint64_t fileO
     file.seekg(fileOffset, std::ios::beg);
     file.read(reinterpret_cast<char*>(values.data()), sizeof(T) * count);
     return values;
+}
+
+inline uint32_t MemoryReader::ReadUInt32(std::ifstream& file, uintptr_t rva)
+{
+    return ReadStruct<uint32_t>(file, RvaToFileOffset(rva));
 }
 
