@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-// ±âº» Il2Cpp ±¸Á¶Ã¼ Á¤ÀÇ
+// 기본 Il2Cpp 구조체 정의
 
 struct Il2CppTypeDefinition
 {
@@ -77,34 +77,16 @@ struct Il2CppGlobalMetadataHeader
     int32_t  version;
 
     uint32_t stringLiteralOffset;
-    int32_t  stringLiteralSize;
-    uint32_t stringLiteralDataOffset;
-    int32_t  stringLiteralDataSize;
-
-    uint32_t stringLiteralDataOffset;
-    uint32_t stringLiteralDataCount;
+    uint32_t stringLiteralCount;
 
     uint32_t stringLiteralDataOffset;
     uint32_t stringLiteralDataCount;
 
     uint32_t stringOffset;
-    int32_t  stringSize;
+    uint32_t stringCount;
 
-    uint32_t eventsOffset;
-    int32_t  eventsSize;
-    uint32_t propertiesOffset;
-    int32_t  propertiesSize;
-    uint32_t methodsOffset;
-    int32_t  methodsSize;
-
-    uint32_t parameterDefaultValuesOffset;
-    int32_t  parameterDefaultValuesSize;
-    uint32_t fieldDefaultValuesOffset;
-    int32_t  fieldDefaultValuesSize;
-    uint32_t fieldAndParameterDefaultValueDataOffset;
-    int32_t  fieldAndParameterDefaultValueDataSize;
-    int32_t  fieldMarshaledSizesOffset;
-    int32_t  fieldMarshaledSizesSize;
+    uint32_t methodDefinitionOffset;
+    uint32_t methodDefinitionCount;
 
     uint32_t typeDefinitionOffset;
     uint32_t typeDefinitionCount;
