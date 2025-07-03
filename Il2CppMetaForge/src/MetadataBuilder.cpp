@@ -56,34 +56,104 @@ void MetadataBuilder::Build()
 void MetadataBuilder::WriteMetadataHeader(std::ofstream& file)
 {
     Il2CppGlobalMetadataHeader header{};
-    header.sanity = 0xFAB11BAF;
+    header.sanity  = 0xFAB11BAF;
     header.version = 31;
 
     uint32_t offset = sizeof(Il2CppGlobalMetadataHeader);
     header.stringLiteralOffset = offset;
-    header.stringLiteralCount = static_cast<uint32_t>(stringLiterals.size());
-    offset += static_cast<uint32_t>(stringLiterals.size() * sizeof(Il2CppStringLiteral) +
-                                   stringLiteralData.size());
+    header.stringLiteralSize   = static_cast<int32_t>(stringLiterals.size() * sizeof(Il2CppStringLiteral));
+    offset += header.stringLiteralSize;
+
+    header.stringLiteralDataOffset = offset;
+    header.stringLiteralDataSize   = static_cast<int32_t>(stringLiteralData.size());
+    offset += header.stringLiteralDataSize;
 
     header.stringOffset = offset;
-    header.stringCount = static_cast<uint32_t>(strings.size());
-    offset += static_cast<uint32_t>(strings.size());
+    header.stringSize   = static_cast<int32_t>(strings.size());
+    offset += header.stringSize;
 
-    header.methodDefinitionOffset = offset;
-    header.methodDefinitionCount = static_cast<uint32_t>(methodDefinitions.size());
-    offset += static_cast<uint32_t>(methodDefinitions.size() * sizeof(Il2CppMethodDefinition));
+    header.eventsOffset    = 0;
+    header.eventsSize      = 0;
+    header.propertiesOffset = 0;
+    header.propertiesSize   = 0;
 
-    header.typeDefinitionOffset = offset;
-    header.typeDefinitionCount = static_cast<uint32_t>(typeDefinitions.size());
-    offset += static_cast<uint32_t>(typeDefinitions.size() * sizeof(Il2CppTypeDefinition));
+    header.methodsOffset = offset;
+    header.methodsSize   = static_cast<int32_t>(methodDefinitions.size() * sizeof(Il2CppMethodDefinition));
+    offset += header.methodsSize;
 
-    header.metadataUsageOffset = offset;
-    header.metadataUsageCount = static_cast<uint32_t>(metadataUsages.size());
+    header.parameterDefaultValuesOffset        = 0;
+    header.parameterDefaultValuesSize          = 0;
+    header.fieldDefaultValuesOffset            = 0;
+    header.fieldDefaultValuesSize              = 0;
+    header.fieldAndParameterDefaultValueDataOffset = 0;
+    header.fieldAndParameterDefaultValueDataSize   = 0;
+    header.fieldMarshaledSizesOffset           = 0;
+    header.fieldMarshaledSizesSize             = 0;
+
+    header.parametersOffset                   = 0;
+    header.parametersSize                     = 0;
+    header.fieldsOffset                       = 0;
+    header.fieldsSize                         = 0;
+    header.genericParametersOffset            = 0;
+    header.genericParametersSize              = 0;
+    header.genericParameterConstraintsOffset  = 0;
+    header.genericParameterConstraintsSize    = 0;
+    header.genericContainersOffset            = 0;
+    header.genericContainersSize              = 0;
+    header.nestedTypesOffset                  = 0;
+    header.nestedTypesSize                    = 0;
+    header.interfacesOffset                   = 0;
+    header.interfacesSize                     = 0;
+    header.vtableMethodsOffset                = 0;
+    header.vtableMethodsSize                  = 0;
+    header.interfaceOffsetsOffset             = 0;
+    header.interfaceOffsetsSize               = 0;
+
+    header.typeDefinitionsOffset = offset;
+    header.typeDefinitionsSize   = static_cast<int32_t>(typeDefinitions.size() * sizeof(Il2CppTypeDefinition));
+    offset += header.typeDefinitionsSize;
+
+    header.rgctxEntriesOffset = 0;
+    header.rgctxEntriesCount  = 0;
+
+    header.imagesOffset = 0; // temporary, actual value set later
+    header.imagesSize   = 0;
+
+    header.assembliesOffset = 0;
+    header.assembliesSize   = 0;
+
+    header.metadataUsageListsOffset = 0;
+    header.metadataUsageListsCount  = 0;
+    header.metadataUsagePairsOffset = offset;
+    header.metadataUsagePairsCount  = static_cast<int32_t>(metadataUsages.size());
     offset += static_cast<uint32_t>(metadataUsages.size() * sizeof(Il2CppMetadataUsage));
 
-    header.imageDefinitionOffset = offset;
-    header.imageDefinitionCount = static_cast<uint32_t>(imageDefinitions.size());
-    offset += static_cast<uint32_t>(imageDefinitions.size() * sizeof(Il2CppImageDefinition));
+    header.fieldRefsOffset           = 0;
+    header.fieldRefsSize             = 0;
+    header.referencedAssembliesOffset = 0;
+    header.referencedAssembliesSize   = 0;
+    header.attributesInfoOffset       = 0;
+    header.attributesInfoCount        = 0;
+    header.attributeTypesOffset       = 0;
+    header.attributeTypesCount        = 0;
+    header.attributeDataOffset        = 0;
+    header.attributeDataSize          = 0;
+    header.attributeDataRangeOffset   = 0;
+    header.attributeDataRangeSize     = 0;
+    header.unresolvedVirtualCallParameterTypesOffset  = 0;
+    header.unresolvedVirtualCallParameterTypesSize    = 0;
+    header.unresolvedVirtualCallParameterRangesOffset = 0;
+    header.unresolvedVirtualCallParameterRangesSize   = 0;
+    header.windowsRuntimeTypeNamesOffset  = 0;
+    header.windowsRuntimeTypeNamesSize    = 0;
+    header.windowsRuntimeStringsOffset    = 0;
+    header.windowsRuntimeStringsSize      = 0;
+    header.exportedTypeDefinitionsOffset  = 0;
+    header.exportedTypeDefinitionsSize    = 0;
+
+    header.imagesOffset = offset;
+    header.imagesSize   = static_cast<int32_t>(imageDefinitions.size() * sizeof(Il2CppImageDefinition));
+    offset += header.imagesSize;
 
     file.write(reinterpret_cast<const char*>(&header), sizeof(header));
 }
