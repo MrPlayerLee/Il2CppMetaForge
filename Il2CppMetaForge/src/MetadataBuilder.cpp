@@ -118,6 +118,8 @@ void MetadataBuilder::WriteMetadataHeader(std::ofstream& file)
 
     header.imagesOffset = 0; // temporary, actual value set later
     header.imagesSize   = 0;
+    header.imageDefinitionOffset = 0;
+    header.imageDefinitionCount  = 0;
 
     header.assembliesOffset = 0;
     header.assembliesSize   = 0;
@@ -127,6 +129,8 @@ void MetadataBuilder::WriteMetadataHeader(std::ofstream& file)
     header.metadataUsagePairsOffset = offset;
     header.metadataUsagePairsCount  = static_cast<int32_t>(metadataUsages.size());
     offset += static_cast<uint32_t>(metadataUsages.size() * sizeof(Il2CppMetadataUsage));
+    header.metadataUsageOffset = header.metadataUsagePairsOffset;
+    header.metadataUsageCount  = header.metadataUsagePairsCount;
 
     header.fieldRefsOffset           = 0;
     header.fieldRefsSize             = 0;
@@ -153,6 +157,8 @@ void MetadataBuilder::WriteMetadataHeader(std::ofstream& file)
 
     header.imagesOffset = offset;
     header.imagesSize   = static_cast<int32_t>(imageDefinitions.size() * sizeof(Il2CppImageDefinition));
+    header.imageDefinitionOffset = header.imagesOffset;
+    header.imageDefinitionCount  = static_cast<int32_t>(imageDefinitions.size());
     offset += header.imagesSize;
 
     file.write(reinterpret_cast<const char*>(&header), sizeof(header));
