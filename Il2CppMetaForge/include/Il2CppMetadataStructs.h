@@ -107,12 +107,16 @@ struct Il2CppGlobalMetadataHeader
     int32_t  rgctxEntriesCount;
     uint32_t imagesOffset;
     int32_t  imagesSize;
+    uint32_t imageDefinitionOffset;
+    int32_t  imageDefinitionCount;
     uint32_t assembliesOffset;
     int32_t  assembliesSize;
     uint32_t metadataUsageListsOffset;
     int32_t  metadataUsageListsCount;
     uint32_t metadataUsagePairsOffset;
     int32_t  metadataUsagePairsCount;
+    uint32_t metadataUsageOffset;
+    int32_t  metadataUsageCount;
     uint32_t fieldRefsOffset;
     int32_t  fieldRefsSize;
     int32_t  referencedAssembliesOffset;
