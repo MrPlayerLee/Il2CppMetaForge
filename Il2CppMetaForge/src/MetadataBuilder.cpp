@@ -1,4 +1,4 @@
-﻿#include "MetadataBuilder.h"
+#include "MetadataBuilder.h"
 #include <cstring>
 
 MetadataBuilder::MetadataBuilder(const std::string& path)
