@@ -14,6 +14,16 @@ void MetadataBuilder::SetMethodDefinitions(const std::vector<Il2CppMethodDefinit
     methodDefinitions = defs;
 }
 
+void MetadataBuilder::SetFieldDefinitions(const std::vector<Il2CppFieldDefinition>& defs)
+{
+    fieldDefinitions = defs;
+}
+
+void MetadataBuilder::SetPropertyDefinitions(const std::vector<Il2CppPropertyDefinition>& defs)
+{
+    propertyDefinitions = defs;
+}
+
 void MetadataBuilder::SetStringLiterals(const std::vector<Il2CppStringLiteral>& literals,
                                         const std::vector<char>& stringData)
 {
@@ -45,7 +55,9 @@ void MetadataBuilder::Build()
     WriteMetadataHeader(file);
     WriteStringLiteralTable(file);
     WriteStringTable(file);
+    WritePropertyDefinitions(file);
     WriteMethodDefinitions(file);
+    WriteFieldDefinitions(file);
     WriteTypeDefinitions(file);
     WriteMetadataUsages(file);
     WriteImageDefinitions(file);
@@ -74,8 +86,10 @@ void MetadataBuilder::WriteMetadataHeader(std::ofstream& file)
 
     header.eventsOffset    = 0;
     header.eventsSize      = 0;
-    header.propertiesOffset = 0;
-    header.propertiesSize   = 0;
+
+    header.propertiesOffset = offset;
+    header.propertiesSize   = static_cast<int32_t>(propertyDefinitions.size() * sizeof(Il2CppPropertyDefinition));
+    offset += header.propertiesSize;
 
     header.methodsOffset = offset;
     header.methodsSize   = static_cast<int32_t>(methodDefinitions.size() * sizeof(Il2CppMethodDefinition));
@@ -92,8 +106,10 @@ void MetadataBuilder::WriteMetadataHeader(std::ofstream& file)
 
     header.parametersOffset                   = 0;
     header.parametersSize                     = 0;
-    header.fieldsOffset                       = 0;
-    header.fieldsSize                         = 0;
+
+    header.fieldsOffset = offset;
+    header.fieldsSize   = static_cast<int32_t>(fieldDefinitions.size() * sizeof(Il2CppFieldDefinition));
+    offset += header.fieldsSize;
     header.genericParametersOffset            = 0;
     header.genericParametersSize              = 0;
     header.genericParameterConstraintsOffset  = 0;
@@ -173,6 +189,18 @@ void MetadataBuilder::WriteTypeDefinitions(std::ofstream& file)
 void MetadataBuilder::WriteMethodDefinitions(std::ofstream& file)
 {
     for (const auto& def : methodDefinitions)
+        file.write(reinterpret_cast<const char*>(&def), sizeof(def));
+}
+
+void MetadataBuilder::WriteFieldDefinitions(std::ofstream& file)
+{
+    for (const auto& def : fieldDefinitions)
+        file.write(reinterpret_cast<const char*>(&def), sizeof(def));
+}
+
+void MetadataBuilder::WritePropertyDefinitions(std::ofstream& file)
+{
+    for (const auto& def : propertyDefinitions)
         file.write(reinterpret_cast<const char*>(&def), sizeof(def));
 }
 

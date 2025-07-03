@@ -48,6 +48,23 @@ struct Il2CppMethodDefinition
     uint16_t parameterCount;
 };
 
+struct Il2CppFieldDefinition
+{
+    uint32_t nameIndex;
+    uint32_t typeIndex;
+    uint32_t customAttributeIndex;
+    uint32_t token;
+};
+
+struct Il2CppPropertyDefinition
+{
+    uint32_t nameIndex;
+    uint32_t getter;
+    uint32_t setter;
+    uint32_t customAttributeIndex;
+    uint32_t token;
+};
+
 struct Il2CppStringLiteral
 {
     uint32_t length;
