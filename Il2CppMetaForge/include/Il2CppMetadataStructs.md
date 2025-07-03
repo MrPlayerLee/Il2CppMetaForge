@@ -23,6 +23,14 @@ Il2Cpp의 구조체는 `typeDefinitions`, `methodDefinitions`, `stringLiteralTab
   - 각 함수에 대한 메타 정보를 담고 있습니다.
 - `Il2CppStringLiteral`
   - 문자열 테이블의 엔트리를 나타냅니다.
+- `Il2CppParameterDefinition`
+  - 메서드 인자의 이름과 타입 정보를 기록합니다.
+- `Il2CppAssemblyDefinition`
+  - 이미지와 참조 어셈블리 정보를 보유합니다.
+- `Il2CppGenericContainer`
+  - 제네릭 타입/메서드의 파라미터 범위를 정의합니다.
+- `Il2CppGenericParameter`
+  - 각 제네릭 파라미터의 제약 조건과 이름을 나타냅니다.
 - `Il2CppMetadataUsage`
   - 런타임 리플렉션, 메서드 바인딩 등에 사용됩니다.
 - `Il2CppImageDefinition`
