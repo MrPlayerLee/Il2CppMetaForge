@@ -56,16 +56,27 @@ int main(int argc, char* argv[])
         gameAssembly, reader.RvaToFileOffset(reader.GetMetadataUsages()), usageCount);
 
     std::vector<char> stringTable;
-    const char* names[] = {"Assembly-CSharp", "DummyType", "DummyNS", "DummyMethod"};
-    for (const char* n : names)
+    auto addString = [&stringTable](const char* str) -> uint32_t
     {
-        size_t len = std::strlen(n);
-        stringTable.insert(stringTable.end(), n, n + len + 1);
-    }
+        uint32_t index = static_cast<uint32_t>(stringTable.size());
+        size_t len = std::strlen(str);
+        stringTable.insert(stringTable.end(), str, str + len + 1);
+        return index;
+    };
+
+    uint32_t asmNameIndex = addString("Assembly-CSharp");
+    uint32_t typeNameIndex = addString("DummyType");
+    uint32_t nsNameIndex = addString("DummyNS");
+    uint32_t methodNameIndex = addString("DummyMethod");
+
+    // 문자열 오프셋을 구조체에 기록
+    types[0].nameIndex = typeNameIndex;
+    types[0].namespaceIndex = nsNameIndex;
+    methods[0].nameIndex = methodNameIndex;
 
     std::vector<Il2CppImageDefinition> images(1);
     images[0] = {};
-    images[0].nameIndex = 0;      // "Assembly-CSharp"
+    images[0].nameIndex = asmNameIndex; // "Assembly-CSharp"
     images[0].typeStart = 0;
     images[0].typeCount = static_cast<uint32_t>(types.size());
 
