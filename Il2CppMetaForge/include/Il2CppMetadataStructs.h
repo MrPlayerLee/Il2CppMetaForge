@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <cstdint>
 #include <vector>
@@ -48,6 +48,23 @@ struct Il2CppMethodDefinition
     uint16_t parameterCount;
 };
 
+struct Il2CppFieldDefinition
+{
+    uint32_t nameIndex;
+    uint32_t typeIndex;
+    uint32_t customAttributeIndex;
+    uint32_t token;
+};
+
+struct Il2CppPropertyDefinition
+{
+    uint32_t nameIndex;
+    uint32_t getter;
+    uint32_t setter;
+    uint32_t customAttributeIndex;
+    uint32_t token;
+};
+
 struct Il2CppStringLiteral
 {
     uint32_t length;
@@ -57,19 +74,34 @@ struct Il2CppStringLiteral
 struct Il2CppGlobalMetadataHeader
 {
     uint32_t sanity;
-    int32_t version;
+    int32_t  version;
 
     uint32_t stringLiteralOffset;
-    uint32_t stringLiteralCount;
+    int32_t  stringLiteralSize;
+    uint32_t stringLiteralDataOffset;
+    int32_t  stringLiteralDataSize;
 
     uint32_t stringLiteralDataOffset;
     uint32_t stringLiteralDataCount;
 
     uint32_t stringOffset;
-    uint32_t stringCount;
+    int32_t  stringSize;
 
-    uint32_t methodDefinitionOffset;
-    uint32_t methodDefinitionCount;
+    uint32_t eventsOffset;
+    int32_t  eventsSize;
+    uint32_t propertiesOffset;
+    int32_t  propertiesSize;
+    uint32_t methodsOffset;
+    int32_t  methodsSize;
+
+    uint32_t parameterDefaultValuesOffset;
+    int32_t  parameterDefaultValuesSize;
+    uint32_t fieldDefaultValuesOffset;
+    int32_t  fieldDefaultValuesSize;
+    uint32_t fieldAndParameterDefaultValueDataOffset;
+    int32_t  fieldAndParameterDefaultValueDataSize;
+    int32_t  fieldMarshaledSizesOffset;
+    int32_t  fieldMarshaledSizesSize;
 
     uint32_t typeDefinitionOffset;
     uint32_t typeDefinitionCount;

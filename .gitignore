@@ -51,3 +51,5 @@
 *.log
 x64/Release/global-metadata.dat
 *.vsidx
+/Il2CppMetaForge/build
+/.vs/

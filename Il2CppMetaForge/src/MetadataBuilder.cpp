@@ -1,4 +1,4 @@
-﻿#include "MetadataBuilder.h"
+#include "MetadataBuilder.h"
 #include <cstring>
 
 MetadataBuilder::MetadataBuilder(const std::string& path)
@@ -12,6 +12,16 @@ void MetadataBuilder::SetTypeDefinitions(const std::vector<Il2CppTypeDefinition>
 void MetadataBuilder::SetMethodDefinitions(const std::vector<Il2CppMethodDefinition>& defs)
 {
     methodDefinitions = defs;
+}
+
+void MetadataBuilder::SetFieldDefinitions(const std::vector<Il2CppFieldDefinition>& defs)
+{
+    fieldDefinitions = defs;
+}
+
+void MetadataBuilder::SetPropertyDefinitions(const std::vector<Il2CppPropertyDefinition>& defs)
+{
+    propertyDefinitions = defs;
 }
 
 void MetadataBuilder::SetStringLiterals(const std::vector<Il2CppStringLiteral>& literals,
@@ -57,7 +67,7 @@ void MetadataBuilder::Build()
 void MetadataBuilder::WriteMetadataHeader(std::ofstream& file)
 {
     Il2CppGlobalMetadataHeader header{};
-    header.sanity = 0xFAB11BAF;
+    header.sanity  = 0xFAB11BAF;
     header.version = 31;
 
     uint32_t offset = sizeof(Il2CppGlobalMetadataHeader);
@@ -97,6 +107,18 @@ void MetadataBuilder::WriteTypeDefinitions(std::ofstream& file)
 void MetadataBuilder::WriteMethodDefinitions(std::ofstream& file)
 {
     for (const auto& def : methodDefinitions)
+        file.write(reinterpret_cast<const char*>(&def), sizeof(def));
+}
+
+void MetadataBuilder::WriteFieldDefinitions(std::ofstream& file)
+{
+    for (const auto& def : fieldDefinitions)
+        file.write(reinterpret_cast<const char*>(&def), sizeof(def));
+}
+
+void MetadataBuilder::WritePropertyDefinitions(std::ofstream& file)
+{
+    for (const auto& def : propertyDefinitions)
         file.write(reinterpret_cast<const char*>(&def), sizeof(def));
 }
 
