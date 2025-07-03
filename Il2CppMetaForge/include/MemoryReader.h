@@ -16,9 +16,13 @@ public:
     uintptr_t GetTypeDefinitions() const;
     uintptr_t GetMethodDefinitions() const;
     uintptr_t GetStringLiteralTable() const;
+    uintptr_t GetStringLiteralTableCount() const;
     uintptr_t GetMetadataUsages() const;
     uintptr_t GetMetadataUsagesCount() const;
     uintptr_t GetImageDefinitionsCount() const;
+
+    uintptr_t GetTypeDefinitionsCount() const;
+    uintptr_t GetMethodDefinitionsCount() const;
 
     uintptr_t ReadPointer(std::ifstream& file, uint64_t fileOffset);
     template <typename T>
@@ -35,9 +39,12 @@ private:
     uintptr_t typeDefinitions{0};
     uintptr_t methodDefinitions{0};
     uintptr_t stringLiteralTable{0};
+    uintptr_t stringLiteralTableCount{0};
     uintptr_t metadataUsages{0};
     uintptr_t metadataUsagesCount{0};
     uintptr_t imageDefinitionsCount{0};
+    uintptr_t typeDefinitionsCount{0};
+    uintptr_t methodDefinitionsCount{0};
 };
 
 template <typename T>

@@ -41,26 +41,34 @@ int main(int argc, char* argv[])
         stringTable.insert(stringTable.end(), n, n + len + 1);
     }
 
-    std::vector<Il2CppTypeDefinition> types;
-    Il2CppTypeDefinition type = reader.ReadStruct<Il2CppTypeDefinition>(gameAssembly,
-        reader.RvaToFileOffset(reader.GetTypeDefinitions()));
-    types.push_back(type);
+    uint32_t typeCount = reader.ReadStruct<uint32_t>(gameAssembly,
+        reader.RvaToFileOffset(reader.GetTypeDefinitionsCount()));
+    std::vector<Il2CppTypeDefinition> types = reader.ReadStructArray<Il2CppTypeDefinition>(
+        gameAssembly,
+        reader.RvaToFileOffset(reader.GetTypeDefinitions()),
+        typeCount);
 
-    std::vector<Il2CppMethodDefinition> methods;
-    Il2CppMethodDefinition method = reader.ReadStruct<Il2CppMethodDefinition>(gameAssembly,
-        reader.RvaToFileOffset(reader.GetMethodDefinitions()));
-    methods.push_back(method);
+    uint32_t methodCount = reader.ReadStruct<uint32_t>(gameAssembly,
+        reader.RvaToFileOffset(reader.GetMethodDefinitionsCount()));
+    std::vector<Il2CppMethodDefinition> methods = reader.ReadStructArray<Il2CppMethodDefinition>(
+        gameAssembly,
+        reader.RvaToFileOffset(reader.GetMethodDefinitions()),
+        methodCount);
 
-    std::vector<Il2CppStringLiteral> literals;
-    std::vector<char> literalData;
-    Il2CppStringLiteral literal = reader.ReadStruct<Il2CppStringLiteral>(gameAssembly,
-        reader.RvaToFileOffset(reader.GetStringLiteralTable()));
-    literals.push_back(literal);
-    uint64_t literalDataOffset = reader.RvaToFileOffset(reader.GetStringLiteralTable() + sizeof(Il2CppStringLiteral));
-    literalData.resize(literal.length + 1);
+    uint32_t literalCount = reader.ReadStruct<uint32_t>(gameAssembly,
+        reader.RvaToFileOffset(reader.GetStringLiteralTableCount()));
+    std::vector<Il2CppStringLiteral> literals = reader.ReadStructArray<Il2CppStringLiteral>(
+        gameAssembly,
+        reader.RvaToFileOffset(reader.GetStringLiteralTable()),
+        literalCount);
+    size_t literalDataSize = 0;
+    for (const auto& lit : literals)
+        if (lit.dataIndex + lit.length > literalDataSize)
+            literalDataSize = lit.dataIndex + lit.length;
+    std::vector<char> literalData(literalDataSize);
+    uint64_t literalDataOffset = reader.RvaToFileOffset(reader.GetStringLiteralTable() + sizeof(Il2CppStringLiteral) * literalCount);
     gameAssembly.seekg(literalDataOffset, std::ios::beg);
-    gameAssembly.read(literalData.data(), literal.length);
-    literalData[literal.length] = '\0';
+    gameAssembly.read(literalData.data(), literalDataSize);
 
     std::vector<Il2CppMetadataUsage> usages;
     uint32_t usageCount = reader.ReadStruct<uint32_t>(gameAssembly,
