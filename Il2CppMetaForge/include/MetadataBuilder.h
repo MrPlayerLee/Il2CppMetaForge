@@ -18,6 +18,8 @@ public:
     void SetStrings(const std::vector<char>& strings);
     void SetMetadataUsages(const std::vector<Il2CppMetadataUsage>& usages);
     void SetImageDefinitions(const std::vector<Il2CppImageDefinition>& images);
+    void SetParameterDefinitions(const std::vector<Il2CppParameterDefinition>& defs);
+    void SetAssemblyDefinitions(const std::vector<Il2CppAssemblyDefinition>& defs);
 
     void Build();
 
@@ -27,6 +29,8 @@ private:
     void WriteMethodDefinitions(std::ofstream& file);
     void WriteFieldDefinitions(std::ofstream& file);
     void WritePropertyDefinitions(std::ofstream& file);
+    void WriteParameterDefinitions(std::ofstream& file);
+    void WriteAssemblyDefinitions(std::ofstream& file);
     void WriteStringLiteralTable(std::ofstream& file);
     void WriteStringLiteralData(std::ofstream& file);
     void WriteStringTable(std::ofstream& file);
@@ -43,5 +47,7 @@ private:
     std::vector<char> strings;
     std::vector<Il2CppMetadataUsage> metadataUsages;
     std::vector<Il2CppImageDefinition> imageDefinitions;
+    std::vector<Il2CppParameterDefinition> parameterDefinitions;
+    std::vector<Il2CppAssemblyDefinition> assemblyDefinitions;
 };
 
