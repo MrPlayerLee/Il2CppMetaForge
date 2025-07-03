@@ -21,6 +21,11 @@ void MetadataBuilder::SetStringLiterals(const std::vector<Il2CppStringLiteral>& 
     stringLiteralData = stringData;
 }
 
+void MetadataBuilder::SetStrings(const std::vector<char>& strs)
+{
+    strings = strs;
+}
+
 void MetadataBuilder::SetMetadataUsages(const std::vector<Il2CppMetadataUsage>& usages)
 {
     metadataUsages = usages;
@@ -39,6 +44,7 @@ void MetadataBuilder::Build()
 
     WriteMetadataHeader(file);
     WriteStringLiteralTable(file);
+    WriteStringTable(file);
     WriteMethodDefinitions(file);
     WriteTypeDefinitions(file);
     WriteMetadataUsages(file);
@@ -60,7 +66,8 @@ void MetadataBuilder::WriteMetadataHeader(std::ofstream& file)
                                    stringLiteralData.size());
 
     header.stringOffset = offset;
-    header.stringCount = 0; // \uBCC0\uACBD\uB41C \uBB38\uC790 \uD14C\uC774\uBE14\uC740 \uC5C6\uC74C
+    header.stringCount = static_cast<uint32_t>(strings.size());
+    offset += static_cast<uint32_t>(strings.size());
 
     header.methodDefinitionOffset = offset;
     header.methodDefinitionCount = static_cast<uint32_t>(methodDefinitions.size());
@@ -91,6 +98,11 @@ void MetadataBuilder::WriteStringLiteralTable(std::ofstream& file)
         file.write(reinterpret_cast<const char*>(&lit), sizeof(lit));
 
     file.write(stringLiteralData.data(), stringLiteralData.size());
+}
+
+void MetadataBuilder::WriteStringTable(std::ofstream& file)
+{
+    file.write(strings.data(), strings.size());
 }
 
 void MetadataBuilder::WriteMetadataUsages(std::ofstream& file)

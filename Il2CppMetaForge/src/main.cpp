@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cstring>
 #include "MemoryReader.h"
 #include "MetadataBuilder.h"
 
@@ -31,12 +32,34 @@ int main(int argc, char* argv[])
 
     reader.LoadMetadataPointers(gameAssembly);
 
-    // \uB124\uC784 \uC5C6\uB294 \uB370\uC774\uD130\uB97C \uC81C\uACF5\uD558\uAE30 \uC704\uD574 \uAC00\uC7A5 \uAE4A\uC740 \uAD6C\uC870\uCCB4\uB97C \uD615\uC131
+    // \uAE30\uBCF8 \uAD6C\uC870\uCCB4 \uC124\uC815
+    std::vector<char> stringTable;
+    const char* names[] = {"Assembly-CSharp", "MyClass", "Utils", "Foo"};
+    for (const char* n : names)
+    {
+        size_t len = std::strlen(n);
+        stringTable.insert(stringTable.end(), n, n + len + 1);
+    }
+
+    std::vector<Il2CppImageDefinition> images(1);
+    images[0] = {};
+    images[0].nameIndex = 0;      // "Assembly-CSharp"
+    images[0].typeStart = 0;
+    images[0].typeCount = 1;
+
     std::vector<Il2CppTypeDefinition> types(1);
     types[0] = {};
+    types[0].nameIndex = 1;        // "MyClass"
+    types[0].namespaceIndex = 2;   // "Utils"
+    types[0].methodStart = 0;
+    types[0].method_count = 1;
 
     std::vector<Il2CppMethodDefinition> methods(1);
     methods[0] = {};
+    methods[0].nameIndex = 3;      // "Foo"
+    methods[0].declaringType = 0;
+    methods[0].returnType = 0;
+    methods[0].parameterCount = 0;
 
     std::vector<Il2CppStringLiteral> literals(1);
     literals[0].length = 4;
@@ -45,11 +68,11 @@ int main(int argc, char* argv[])
     std::vector<char> literalData = {'T', 'e', 's', 't', '\0'};
 
     std::vector<Il2CppMetadataUsage> usages(1);
-    std::vector<Il2CppImageDefinition> images(1);
 
     builder.SetTypeDefinitions(types);
     builder.SetMethodDefinitions(methods);
     builder.SetStringLiterals(literals, literalData);
+    builder.SetStrings(stringTable);
     builder.SetMetadataUsages(usages);
     builder.SetImageDefinitions(images);
 
