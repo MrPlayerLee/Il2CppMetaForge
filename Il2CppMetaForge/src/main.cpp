@@ -1,22 +1,66 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
+#include <fstream>
+#include <string>
 #include "MemoryReader.h"
 #include "MetadataBuilder.h"
 
+void PrintUsage()
+{
+    std::cout << "Usage:" << std::endl;
+    std::cout << "  Il2CppMetaForge <GameAssembly.dll> <imageBase> <dataSectionVA> <dataFileOffset>" << std::endl;
+    std::cout << "  Il2CppMetaForge --config <config.txt> <GameAssembly.dll>" << std::endl;
+    std::cout << "  Values can be in hex (0x...) or decimal." << std::endl;
+}
+
 int main(int argc, char* argv[])
 {
-    if (argc < 2)
+    if (argc <= 1)
     {
-        std::cerr << "Usage: Il2CppMetaForge <GameAssembly.dll path>" << std::endl;
+        PrintUsage();
         return 1;
     }
 
-    const char* dllPath = argv[1];
+    const char* dllPath = nullptr;
 
-    uintptr_t imageBase = 0x140000000;
-    uintptr_t dataSectionVA = 0x000000018D461A80;
-    uint64_t dataFileOffset = 0x02100000;
+    uintptr_t imageBase = 0;
+    uintptr_t dataSectionVA = 0;
+    uint64_t dataFileOffset = 0;
+
+    if ((std::strcmp(argv[1], "--config") == 0 || std::strcmp(argv[1], "-c") == 0))
+    {
+        if (argc < 4)
+        {
+            PrintUsage();
+            return 1;
+        }
+        std::ifstream cfg(argv[2]);
+        if (!cfg)
+        {
+            std::cerr << "Config file open failed" << std::endl;
+            return 1;
+        }
+        cfg >> std::hex >> imageBase >> dataSectionVA >> dataFileOffset;
+        if (!cfg)
+        {
+            std::cerr << "Config format invalid" << std::endl;
+            return 1;
+        }
+        dllPath = argv[3];
+    }
+    else if (argc >= 5)
+    {
+        dllPath = argv[1];
+        imageBase = std::stoull(argv[2], nullptr, 0);
+        dataSectionVA = std::stoull(argv[3], nullptr, 0);
+        dataFileOffset = std::stoull(argv[4], nullptr, 0);
+    }
+    else
+    {
+        PrintUsage();
+        return 1;
+    }
 
     MemoryReader reader(imageBase, dataSectionVA, dataFileOffset);
 
