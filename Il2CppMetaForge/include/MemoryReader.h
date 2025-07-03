@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <fstream>
+#include <vector>
 
 class MemoryReader {
 public:
@@ -23,6 +24,9 @@ public:
     template <typename T>
     T ReadStruct(std::ifstream& file, uint64_t fileOffset);
 
+    template <typename T>
+    std::vector<T> ReadStructArray(std::ifstream& file, uint64_t fileOffset, size_t count);
+
 private:
     uintptr_t baseVirtualAddress{0};
     uintptr_t dataVirtualAddress{0};
@@ -43,5 +47,14 @@ T MemoryReader::ReadStruct(std::ifstream& file, uint64_t fileOffset)
     file.seekg(fileOffset, std::ios::beg);
     file.read(reinterpret_cast<char*>(&value), sizeof(T));
     return value;
+}
+
+template <typename T>
+std::vector<T> MemoryReader::ReadStructArray(std::ifstream& file, uint64_t fileOffset, size_t count)
+{
+    std::vector<T> values(count);
+    file.seekg(fileOffset, std::ios::beg);
+    file.read(reinterpret_cast<char*>(values.data()), sizeof(T) * count);
+    return values;
 }
 

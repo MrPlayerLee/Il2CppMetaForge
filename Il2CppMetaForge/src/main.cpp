@@ -32,9 +32,31 @@ int main(int argc, char* argv[])
 
     reader.LoadMetadataPointers(gameAssembly);
 
-    // \uAE30\uBCF8 \uAD6C\uC870\uCCB4 \uC124\uC815
+    // 리더가 제공한 포인터들을 이용하여 메모리 개체를 부팅한다.
+    Il2CppTypeDefinition typeDef = reader.ReadStruct<Il2CppTypeDefinition>(gameAssembly,
+        reader.RvaToFileOffset(reader.GetTypeDefinitions()));
+    std::vector<Il2CppTypeDefinition> types{typeDef};
+
+    Il2CppMethodDefinition methodDef = reader.ReadStruct<Il2CppMethodDefinition>(gameAssembly,
+        reader.RvaToFileOffset(reader.GetMethodDefinitions()));
+    std::vector<Il2CppMethodDefinition> methods{methodDef};
+
+    Il2CppStringLiteral literal = reader.ReadStruct<Il2CppStringLiteral>(gameAssembly,
+        reader.RvaToFileOffset(reader.GetStringLiteralTable()));
+    std::vector<Il2CppStringLiteral> literals{literal};
+
+    std::vector<char> literalData(literal.length + 1);
+    gameAssembly.seekg(reader.RvaToFileOffset(reader.GetStringLiteralTable()) + sizeof(Il2CppStringLiteral), std::ios::beg);
+    gameAssembly.read(literalData.data(), literal.length);
+    literalData[literal.length] = '\0';
+
+    uint32_t usageCount = reader.ReadStruct<uint32_t>(gameAssembly,
+        reader.RvaToFileOffset(reader.GetMetadataUsagesCount()));
+    std::vector<Il2CppMetadataUsage> usages = reader.ReadStructArray<Il2CppMetadataUsage>(
+        gameAssembly, reader.RvaToFileOffset(reader.GetMetadataUsages()), usageCount);
+
     std::vector<char> stringTable;
-    const char* names[] = {"Assembly-CSharp", "MyClass", "Utils", "Foo"};
+    const char* names[] = {"Assembly-CSharp", "DummyType", "DummyNS", "DummyMethod"};
     for (const char* n : names)
     {
         size_t len = std::strlen(n);
@@ -45,29 +67,7 @@ int main(int argc, char* argv[])
     images[0] = {};
     images[0].nameIndex = 0;      // "Assembly-CSharp"
     images[0].typeStart = 0;
-    images[0].typeCount = 1;
-
-    std::vector<Il2CppTypeDefinition> types(1);
-    types[0] = {};
-    types[0].nameIndex = 1;        // "MyClass"
-    types[0].namespaceIndex = 2;   // "Utils"
-    types[0].methodStart = 0;
-    types[0].method_count = 1;
-
-    std::vector<Il2CppMethodDefinition> methods(1);
-    methods[0] = {};
-    methods[0].nameIndex = 3;      // "Foo"
-    methods[0].declaringType = 0;
-    methods[0].returnType = 0;
-    methods[0].parameterCount = 0;
-
-    std::vector<Il2CppStringLiteral> literals(1);
-    literals[0].length = 4;
-    literals[0].dataIndex = 0;
-
-    std::vector<char> literalData = {'T', 'e', 's', 't', '\0'};
-
-    std::vector<Il2CppMetadataUsage> usages(1);
+    images[0].typeCount = static_cast<uint32_t>(types.size());
 
     builder.SetTypeDefinitions(types);
     builder.SetMethodDefinitions(methods);
