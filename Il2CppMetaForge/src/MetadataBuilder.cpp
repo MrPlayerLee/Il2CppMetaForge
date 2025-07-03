@@ -46,6 +46,16 @@ void MetadataBuilder::SetImageDefinitions(const std::vector<Il2CppImageDefinitio
     imageDefinitions = images;
 }
 
+void MetadataBuilder::SetParameterDefinitions(const std::vector<Il2CppParameterDefinition>& defs)
+{
+    parameterDefinitions = defs;
+}
+
+void MetadataBuilder::SetAssemblyDefinitions(const std::vector<Il2CppAssemblyDefinition>& defs)
+{
+    assemblyDefinitions = defs;
+}
+
 void MetadataBuilder::Build()
 {
     std::ofstream file(outputPath, std::ios::binary);
@@ -57,11 +67,13 @@ void MetadataBuilder::Build()
     WriteStringLiteralData(file);
     WriteStringTable(file);
     WriteMethodDefinitions(file);
+    WriteParameterDefinitions(file);
     WriteFieldDefinitions(file);
     WritePropertyDefinitions(file);
     WriteTypeDefinitions(file);
     WriteMetadataUsages(file);
     WriteImageDefinitions(file);
+    WriteAssemblyDefinitions(file);
 
     file.close();
 }
@@ -89,6 +101,10 @@ void MetadataBuilder::WriteMetadataHeader(std::ofstream& file)
     header.methodDefinitionCount = static_cast<uint32_t>(methodDefinitions.size());
     offset += static_cast<uint32_t>(methodDefinitions.size() * sizeof(Il2CppMethodDefinition));
 
+    header.parameterDefinitionOffset = offset;
+    header.parameterDefinitionCount = static_cast<uint32_t>(parameterDefinitions.size());
+    offset += static_cast<uint32_t>(parameterDefinitions.size() * sizeof(Il2CppParameterDefinition));
+
     header.fieldDefinitionOffset = offset;
     header.fieldDefinitionCount = static_cast<uint32_t>(fieldDefinitions.size());
     offset += static_cast<uint32_t>(fieldDefinitions.size() * sizeof(Il2CppFieldDefinition));
@@ -107,6 +123,10 @@ void MetadataBuilder::WriteMetadataHeader(std::ofstream& file)
     header.imageDefinitionOffset = offset;
     header.imageDefinitionCount = static_cast<uint32_t>(imageDefinitions.size());
     offset += static_cast<uint32_t>(imageDefinitions.size() * sizeof(Il2CppImageDefinition));
+
+    header.assemblyDefinitionOffset = offset;
+    header.assemblyDefinitionCount = static_cast<uint32_t>(assemblyDefinitions.size());
+    offset += static_cast<uint32_t>(assemblyDefinitions.size() * sizeof(Il2CppAssemblyDefinition));
 
     file.write(reinterpret_cast<const char*>(&header), sizeof(header));
 }
@@ -132,6 +152,18 @@ void MetadataBuilder::WriteFieldDefinitions(std::ofstream& file)
 void MetadataBuilder::WritePropertyDefinitions(std::ofstream& file)
 {
     for (const auto& def : propertyDefinitions)
+        file.write(reinterpret_cast<const char*>(&def), sizeof(def));
+}
+
+void MetadataBuilder::WriteParameterDefinitions(std::ofstream& file)
+{
+    for (const auto& def : parameterDefinitions)
+        file.write(reinterpret_cast<const char*>(&def), sizeof(def));
+}
+
+void MetadataBuilder::WriteAssemblyDefinitions(std::ofstream& file)
+{
+    for (const auto& def : assemblyDefinitions)
         file.write(reinterpret_cast<const char*>(&def), sizeof(def));
 }
 

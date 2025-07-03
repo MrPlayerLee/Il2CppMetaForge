@@ -138,6 +138,12 @@ struct Il2CppGlobalMetadataHeader
 
     uint32_t imageDefinitionOffset;
     uint32_t imageDefinitionCount;
+
+    uint32_t parameterDefinitionOffset;
+    uint32_t parameterDefinitionCount;
+
+    uint32_t assemblyDefinitionOffset;
+    uint32_t assemblyDefinitionCount;
     // reserved
 };
 
