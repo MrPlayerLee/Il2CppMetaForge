@@ -25,23 +25,38 @@ uintptr_t MemoryReader::ReadPointer(std::ifstream& file, uintptr_t rva)
     return result;
 }
 
+void MemoryReader::LoadMetadataPointers(std::ifstream& file)
+{
+    // 실제 메타데이터 파싱 로직이 없으므로 벡터를 초기화만 수행한다.
+    typeDefinitionList.clear();
+    methodDefinitionList.clear();
+    fieldDefinitionList.clear();
+    propertyDefinitionList.clear();
+    parameterDefinitionList.clear();
+    assemblyDefinitionList.clear();
+    imageDefinitionList.clear();
+    metadataUsageList.clear();
+    stringLiteralList.clear();
+    stringLiteralDataList.clear();
+    stringTableList.clear();
+    genericContainerList.clear();
+    genericParameterList.clear();
+}
+
 // Getter implementations
-uintptr_t MemoryReader::GetTypeDefinitions() const { return typeDefinitions; }
-uint32_t MemoryReader::GetTypeDefinitionsCount() const { return typeDefinitionsCount; }
-uintptr_t MemoryReader::GetMethodDefinitions() const { return methodDefinitions; }
-uint32_t MemoryReader::GetMethodDefinitionsCount() const { return methodDefinitionsCount; }
-uintptr_t MemoryReader::GetFieldDefinitions() const { return fieldDefinitions; }
-uint32_t MemoryReader::GetFieldDefinitionsCount() const { return fieldDefinitionsCount; }
-uintptr_t MemoryReader::GetPropertyDefinitions() const { return propertyDefinitions; }
-uint32_t MemoryReader::GetPropertyDefinitionsCount() const { return propertyDefinitionsCount; }
-uintptr_t MemoryReader::GetParameterDefinitions() const { return parameterDefinitions; }
-uint32_t MemoryReader::GetParameterDefinitionsCount() const { return parameterDefinitionsCount; }
-uintptr_t MemoryReader::GetAssemblyDefinitions() const { return assemblyDefinitions; }
-uint32_t MemoryReader::GetAssemblyDefinitionsCount() const { return assemblyDefinitionsCount; }
-uintptr_t MemoryReader::GetStringLiteralTable() const { return stringLiteralTable; }
-uint32_t MemoryReader::GetStringLiteralTableCount() const { return stringLiteralTableCount; }
-uintptr_t MemoryReader::GetMetadataUsages() const { return metadataUsages; }
-uint32_t MemoryReader::GetMetadataUsagesCount() const { return metadataUsagesCount; }
+const std::vector<Il2CppTypeDefinition>& MemoryReader::GetTypeDefinitions() const { return typeDefinitionList; }
+const std::vector<Il2CppMethodDefinition>& MemoryReader::GetMethodDefinitions() const { return methodDefinitionList; }
+const std::vector<Il2CppFieldDefinition>& MemoryReader::GetFieldDefinitions() const { return fieldDefinitionList; }
+const std::vector<Il2CppPropertyDefinition>& MemoryReader::GetPropertyDefinitions() const { return propertyDefinitionList; }
+const std::vector<Il2CppParameterDefinition>& MemoryReader::GetParameterDefinitions() const { return parameterDefinitionList; }
+const std::vector<Il2CppAssemblyDefinition>& MemoryReader::GetAssemblyDefinitions() const { return assemblyDefinitionList; }
+const std::vector<Il2CppImageDefinition>& MemoryReader::GetImageDefinitions() const { return imageDefinitionList; }
+const std::vector<Il2CppMetadataUsage>& MemoryReader::GetMetadataUsages() const { return metadataUsageList; }
+const std::vector<Il2CppStringLiteral>& MemoryReader::GetStringLiterals() const { return stringLiteralList; }
+const std::vector<char>& MemoryReader::GetStringLiteralData() const { return stringLiteralDataList; }
+const std::vector<char>& MemoryReader::GetStringTable() const { return stringTableList; }
+const std::vector<Il2CppGenericContainer>& MemoryReader::GetGenericContainers() const { return genericContainerList; }
+const std::vector<Il2CppGenericParameter>& MemoryReader::GetGenericParameters() const { return genericParameterList; }
 
 std::vector<Il2CppGenericContainer> MemoryReader::ReadGenericContainers(std::ifstream& file)
 {

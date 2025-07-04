@@ -17,23 +17,20 @@ public:
 
     void LoadMetadataPointers(std::ifstream& file);
 
-    // getter들
-    uintptr_t GetTypeDefinitions() const;
-    uint32_t GetTypeDefinitionsCount() const;
-    uintptr_t GetMethodDefinitions() const;
-    uint32_t GetMethodDefinitionsCount() const;
-    uintptr_t GetFieldDefinitions() const;
-    uint32_t GetFieldDefinitionsCount() const;
-    uintptr_t GetPropertyDefinitions() const;
-    uint32_t GetPropertyDefinitionsCount() const;
-    uintptr_t GetParameterDefinitions() const;
-    uint32_t GetParameterDefinitionsCount() const;
-    uintptr_t GetAssemblyDefinitions() const;
-    uint32_t GetAssemblyDefinitionsCount() const;
-    uintptr_t GetStringLiteralTable() const;
-    uint32_t GetStringLiteralTableCount() const;
-    uintptr_t GetMetadataUsages() const;
-    uint32_t GetMetadataUsagesCount() const;
+    // 메타데이터 테이블 반환
+    const std::vector<Il2CppTypeDefinition>& GetTypeDefinitions() const;
+    const std::vector<Il2CppMethodDefinition>& GetMethodDefinitions() const;
+    const std::vector<Il2CppFieldDefinition>& GetFieldDefinitions() const;
+    const std::vector<Il2CppPropertyDefinition>& GetPropertyDefinitions() const;
+    const std::vector<Il2CppParameterDefinition>& GetParameterDefinitions() const;
+    const std::vector<Il2CppAssemblyDefinition>& GetAssemblyDefinitions() const;
+    const std::vector<Il2CppImageDefinition>& GetImageDefinitions() const;
+    const std::vector<Il2CppMetadataUsage>& GetMetadataUsages() const;
+    const std::vector<Il2CppStringLiteral>& GetStringLiterals() const;
+    const std::vector<char>& GetStringLiteralData() const;
+    const std::vector<char>& GetStringTable() const;
+    const std::vector<Il2CppGenericContainer>& GetGenericContainers() const;
+    const std::vector<Il2CppGenericParameter>& GetGenericParameters() const;
 
     std::vector<Il2CppGenericContainer> ReadGenericContainers(std::ifstream& file);
     std::vector<Il2CppGenericParameter> ReadGenericParameters(std::ifstream& file);
@@ -85,4 +82,19 @@ private:
     uint32_t genericContainerCount{ 0 };
     uintptr_t genericParameters{ 0 };
     uint32_t genericParameterCount{ 0 };
+
+    // 실제 구조체 데이터를 보관할 벡터들
+    std::vector<Il2CppTypeDefinition> typeDefinitionList;
+    std::vector<Il2CppMethodDefinition> methodDefinitionList;
+    std::vector<Il2CppFieldDefinition> fieldDefinitionList;
+    std::vector<Il2CppPropertyDefinition> propertyDefinitionList;
+    std::vector<Il2CppParameterDefinition> parameterDefinitionList;
+    std::vector<Il2CppAssemblyDefinition> assemblyDefinitionList;
+    std::vector<Il2CppImageDefinition> imageDefinitionList;
+    std::vector<Il2CppMetadataUsage> metadataUsageList;
+    std::vector<Il2CppStringLiteral> stringLiteralList;
+    std::vector<char> stringLiteralDataList;
+    std::vector<char> stringTableList;
+    std::vector<Il2CppGenericContainer> genericContainerList;
+    std::vector<Il2CppGenericParameter> genericParameterList;
 };
