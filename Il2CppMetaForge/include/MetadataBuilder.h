@@ -1,53 +1,57 @@
+﻿// Fix_MetadataBuilder.h
 #pragma once
-
-#include "Il2CppMetadataStructs.h"
-#include <string>
 #include <vector>
+#include <string>
 #include <fstream>
+#include <cstdint>
+#include "Il2CppMetadataStructs.h"
 
 class MetadataBuilder {
 public:
     explicit MetadataBuilder(const std::string& outputPath);
 
-    void SetTypeDefinitions(const std::vector<Il2CppTypeDefinition>& defs);
-    void SetMethodDefinitions(const std::vector<Il2CppMethodDefinition>& defs);
-    void SetFieldDefinitions(const std::vector<Il2CppFieldDefinition>& defs);
-    void SetPropertyDefinitions(const std::vector<Il2CppPropertyDefinition>& defs);
-    void SetStringLiterals(const std::vector<Il2CppStringLiteral>& literals,
-                           const std::vector<char>& stringData);
-    void SetStrings(const std::vector<char>& strings);
-    void SetMetadataUsages(const std::vector<Il2CppMetadataUsage>& usages);
+    void SetTypeDefinitions(const std::vector<Il2CppTypeDefinition>& types);
+    void SetMethodDefinitions(const std::vector<Il2CppMethodDefinition>& methods);
+    void SetFieldDefinitions(const std::vector<Il2CppFieldDefinition>& fields);
+    void SetPropertyDefinitions(const std::vector<Il2CppPropertyDefinition>& properties);
+    void SetParameterDefinitions(const std::vector<Il2CppParameterDefinition>& parameters);
+    void SetAssemblyDefinitions(const std::vector<Il2CppAssemblyDefinition>& assemblies);
     void SetImageDefinitions(const std::vector<Il2CppImageDefinition>& images);
-    void SetParameterDefinitions(const std::vector<Il2CppParameterDefinition>& defs);
-    void SetAssemblyDefinitions(const std::vector<Il2CppAssemblyDefinition>& defs);
+    void SetMetadataUsages(const std::vector<Il2CppMetadataUsage>& usages);
+    void SetStringLiterals(const std::vector<Il2CppStringLiteral>& literals, const std::vector<char>& data);
+    void SetStrings(const std::vector<char>& strings);
+    void SetGenericContainers(const std::vector<Il2CppGenericContainer>& containers);
+    void SetGenericParameters(const std::vector<Il2CppGenericParameter>& parameters);
 
     void Build();
 
 private:
-    void WriteMetadataHeader(std::ofstream& file);
-    void WriteTypeDefinitions(std::ofstream& file);
-    void WriteMethodDefinitions(std::ofstream& file);
-    void WriteFieldDefinitions(std::ofstream& file);
-    void WritePropertyDefinitions(std::ofstream& file);
-    void WriteParameterDefinitions(std::ofstream& file);
-    void WriteAssemblyDefinitions(std::ofstream& file);
-    void WriteStringLiteralTable(std::ofstream& file);
-    void WriteStringLiteralData(std::ofstream& file);
-    void WriteStringTable(std::ofstream& file);
-    void WriteMetadataUsages(std::ofstream& file);
-    void WriteImageDefinitions(std::ofstream& file);
+    void WriteMetadataHeader(std::ofstream& output);
+    void WriteTypeDefinitions(std::ofstream& output);
+    void WriteMethodDefinitions(std::ofstream& output);
+    void WriteFieldDefinitions(std::ofstream& output);
+    void WritePropertyDefinitions(std::ofstream& output);
+    void WriteParameterDefinitions(std::ofstream& output);
+    void WriteAssemblyDefinitions(std::ofstream& output);
+    void WriteImageDefinitions(std::ofstream& output);
+    void WriteMetadataUsages(std::ofstream& output);
+    void WriteStringLiteralTable(std::ofstream& output);
+    void WriteStringLiteralData(std::ofstream& output);
+    void WriteStringTable(std::ofstream& output);
 
     std::string outputPath;
+
     std::vector<Il2CppTypeDefinition> typeDefinitions;
     std::vector<Il2CppMethodDefinition> methodDefinitions;
     std::vector<Il2CppFieldDefinition> fieldDefinitions;
     std::vector<Il2CppPropertyDefinition> propertyDefinitions;
+    std::vector<Il2CppParameterDefinition> parameterDefinitions;
+    std::vector<Il2CppAssemblyDefinition> assemblyDefinitions;
+    std::vector<Il2CppImageDefinition> imageDefinitions;
+    std::vector<Il2CppMetadataUsage> metadataUsages;
     std::vector<Il2CppStringLiteral> stringLiterals;
     std::vector<char> stringLiteralData;
     std::vector<char> strings;
-    std::vector<Il2CppMetadataUsage> metadataUsages;
-    std::vector<Il2CppImageDefinition> imageDefinitions;
-    std::vector<Il2CppParameterDefinition> parameterDefinitions;
-    std::vector<Il2CppAssemblyDefinition> assemblyDefinitions;
+    std::vector<Il2CppGenericContainer> genericContainers;
+    std::vector<Il2CppGenericParameter> genericParameters;
 };
-
