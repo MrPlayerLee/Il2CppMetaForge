@@ -56,6 +56,16 @@ void MetadataBuilder::SetAssemblyDefinitions(const std::vector<Il2CppAssemblyDef
     assemblyDefinitions = defs;
 }
 
+void MetadataBuilder::SetGenericContainers(const std::vector<Il2CppGenericContainer>& defs)
+{
+    genericContainers = defs;
+}
+
+void MetadataBuilder::SetGenericParameters(const std::vector<Il2CppGenericParameter>& defs)
+{
+    genericParameters = defs;
+}
+
 void MetadataBuilder::Build()
 {
     std::ofstream file(outputPath, std::ios::binary);
@@ -74,6 +84,8 @@ void MetadataBuilder::Build()
     WriteMetadataUsages(file);
     WriteImageDefinitions(file);
     WriteAssemblyDefinitions(file);
+    WriteGenericContainers(file);
+    WriteGenericParameters(file);
 
     file.close();
 }
@@ -127,6 +139,14 @@ void MetadataBuilder::WriteMetadataHeader(std::ofstream& file)
     header.assemblyDefinitionOffset = offset;
     header.assemblyDefinitionCount = static_cast<uint32_t>(assemblyDefinitions.size());
     offset += static_cast<uint32_t>(assemblyDefinitions.size() * sizeof(Il2CppAssemblyDefinition));
+
+    header.genericContainerOffset = offset;
+    header.genericContainerCount = static_cast<uint32_t>(genericContainers.size());
+    offset += static_cast<uint32_t>(genericContainers.size() * sizeof(Il2CppGenericContainer));
+
+    header.genericParameterOffset = offset;
+    header.genericParameterCount = static_cast<uint32_t>(genericParameters.size());
+    offset += static_cast<uint32_t>(genericParameters.size() * sizeof(Il2CppGenericParameter));
 
     file.write(reinterpret_cast<const char*>(&header), sizeof(header));
 }
@@ -193,5 +213,17 @@ void MetadataBuilder::WriteImageDefinitions(std::ofstream& file)
 {
     for (const auto& img : imageDefinitions)
         file.write(reinterpret_cast<const char*>(&img), sizeof(img));
+}
+
+void MetadataBuilder::WriteGenericContainers(std::ofstream& file)
+{
+    for (const auto& c : genericContainers)
+        file.write(reinterpret_cast<const char*>(&c), sizeof(c));
+}
+
+void MetadataBuilder::WriteGenericParameters(std::ofstream& file)
+{
+    for (const auto& p : genericParameters)
+        file.write(reinterpret_cast<const char*>(&p), sizeof(p));
 }
 

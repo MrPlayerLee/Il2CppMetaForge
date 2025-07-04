@@ -30,6 +30,11 @@ public:
     uintptr_t GetAssemblyDefinitions() const;
     uint32_t GetAssemblyDefinitionsCount() const;
 
+    uintptr_t GetGenericContainers() const;
+    uint32_t GetGenericContainersCount() const;
+    uintptr_t GetGenericParameters() const;
+    uint32_t GetGenericParametersCount() const;
+
     uint32_t GetTypeDefinitionsCount() const;
     uint32_t GetMethodDefinitionsCount() const;
 
@@ -68,6 +73,11 @@ private:
     uint32_t parameterDefinitionsCount{0};
     uintptr_t assemblyDefinitions{0};
     uint32_t assemblyDefinitionsCount{0};
+
+    uintptr_t genericContainers{0};
+    uint32_t genericContainersCount{0};
+    uintptr_t genericParameters{0};
+    uint32_t genericParametersCount{0};
 };
 
 template <typename T>

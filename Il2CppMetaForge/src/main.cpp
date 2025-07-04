@@ -6,6 +6,15 @@
 #include "MemoryReader.h"
 #include "MetadataBuilder.h"
 
+static void LogStructStatus(const char* name, uintptr_t ptr, uint32_t count)
+{
+    std::cout << name << ": ptr=0x" << std::hex << ptr << std::dec
+              << " count=" << count;
+    if (!ptr || !count)
+        std::cout << " [invalid]";
+    std::cout << std::endl;
+}
+
 void PrintUsage()
 {
     std::cout << "Usage:" << std::endl;
@@ -76,6 +85,15 @@ int main(int argc, char* argv[])
 
     reader.LoadMetadataPointers(gameAssembly);
 
+    LogStructStatus("TypeDefinitions", reader.GetTypeDefinitions(), reader.GetTypeDefinitionsCount());
+    LogStructStatus("MethodDefinitions", reader.GetMethodDefinitions(), reader.GetMethodDefinitionsCount());
+    LogStructStatus("FieldDefinitions", reader.GetFieldDefinitions(), reader.GetFieldDefinitionsCount());
+    LogStructStatus("PropertyDefinitions", reader.GetPropertyDefinitions(), reader.GetPropertyDefinitionsCount());
+    LogStructStatus("ParameterDefinitions", reader.GetParameterDefinitions(), reader.GetParameterDefinitionsCount());
+    LogStructStatus("AssemblyDefinitions", reader.GetAssemblyDefinitions(), reader.GetAssemblyDefinitionsCount());
+    LogStructStatus("GenericContainers", reader.GetGenericContainers(), reader.GetGenericContainersCount());
+    LogStructStatus("GenericParameters", reader.GetGenericParameters(), reader.GetGenericParametersCount());
+
     // \uC2A4\uD305 \uB370\uC774\uD130\uB97C \uBAA8\uB450 \uC2DC\uC791 \uB9CC\uD07C \uD55C \uAC1C\uC529 \uC77D\uC5B4\uC624\uAE30
     std::vector<char> stringTable;
     const char* names[] = {"Assembly-CSharp", "MyClass", "Utils", "Foo"};
@@ -123,6 +141,20 @@ int main(int argc, char* argv[])
             reader.RvaToFileOffset(reader.GetAssemblyDefinitions()),
             assemblyCount);
 
+    uint32_t genericContainerCount = reader.GetGenericContainersCount();
+    std::vector<Il2CppGenericContainer> genericContainers =
+        reader.ReadStructArray<Il2CppGenericContainer>(
+            gameAssembly,
+            reader.RvaToFileOffset(reader.GetGenericContainers()),
+            genericContainerCount);
+
+    uint32_t genericParamCount = reader.GetGenericParametersCount();
+    std::vector<Il2CppGenericParameter> genericParameters =
+        reader.ReadStructArray<Il2CppGenericParameter>(
+            gameAssembly,
+            reader.RvaToFileOffset(reader.GetGenericParameters()),
+            genericParamCount);
+
     uint32_t literalCount = reader.GetStringLiteralTableCount();
     std::vector<Il2CppStringLiteral> literals = reader.ReadStructArray<Il2CppStringLiteral>(
         gameAssembly,
@@ -155,6 +187,8 @@ int main(int argc, char* argv[])
     builder.SetPropertyDefinitions(properties);
     builder.SetParameterDefinitions(parameters);
     builder.SetAssemblyDefinitions(assemblies);
+    builder.SetGenericContainers(genericContainers);
+    builder.SetGenericParameters(genericParameters);
     builder.SetStringLiterals(literals, literalData);
     builder.SetStrings(stringTable);
     builder.SetMetadataUsages(usages);

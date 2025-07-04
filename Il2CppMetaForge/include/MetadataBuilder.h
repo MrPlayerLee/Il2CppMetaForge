@@ -20,6 +20,8 @@ public:
     void SetImageDefinitions(const std::vector<Il2CppImageDefinition>& images);
     void SetParameterDefinitions(const std::vector<Il2CppParameterDefinition>& defs);
     void SetAssemblyDefinitions(const std::vector<Il2CppAssemblyDefinition>& defs);
+    void SetGenericContainers(const std::vector<Il2CppGenericContainer>& defs);
+    void SetGenericParameters(const std::vector<Il2CppGenericParameter>& defs);
 
     void Build();
 
@@ -31,6 +33,8 @@ private:
     void WritePropertyDefinitions(std::ofstream& file);
     void WriteParameterDefinitions(std::ofstream& file);
     void WriteAssemblyDefinitions(std::ofstream& file);
+    void WriteGenericContainers(std::ofstream& file);
+    void WriteGenericParameters(std::ofstream& file);
     void WriteStringLiteralTable(std::ofstream& file);
     void WriteStringLiteralData(std::ofstream& file);
     void WriteStringTable(std::ofstream& file);
@@ -49,5 +53,7 @@ private:
     std::vector<Il2CppImageDefinition> imageDefinitions;
     std::vector<Il2CppParameterDefinition> parameterDefinitions;
     std::vector<Il2CppAssemblyDefinition> assemblyDefinitions;
+    std::vector<Il2CppGenericContainer> genericContainers;
+    std::vector<Il2CppGenericParameter> genericParameters;
 };
 

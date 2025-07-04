@@ -26,6 +26,10 @@ parameterDefinitions    = ReadPointer(file, RvaToFileOffset(0x18D461AF8));  // -
 parameterDefinitionsCount = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461B00));  // -> parameterDefinitionsCount
 assemblyDefinitions     = ReadPointer(file, RvaToFileOffset(0x18D461B08));  // -> assemblyDefinitions
 assemblyDefinitionsCount= ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461B10));  // -> assemblyDefinitionsCount
+genericContainers       = ReadPointer(file, RvaToFileOffset(0x18D461B18));  // -> genericContainers
+genericContainersCount  = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461B20));  // -> genericContainersCount
+genericParameters       = ReadPointer(file, RvaToFileOffset(0x18D461B28));  // -> genericParameters
+genericParametersCount  = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461B30));  // -> genericParametersCount
 ```
 
 > 위 오프셋 값은 MabinogiMobile 전용으로 하드코딩되어 있으며, Unity Il2Cpp v31 기준 `.data` 섹션에 위치한 메타데이터 포인터입니다.

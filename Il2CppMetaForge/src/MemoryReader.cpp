@@ -49,6 +49,11 @@ void MemoryReader::LoadMetadataPointers(std::ifstream& file)
     parameterDefinitionsCount = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461B00));
     assemblyDefinitions = ReadPointer(file, RvaToFileOffset(0x18D461B08));
     assemblyDefinitionsCount = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461B10));
+
+    genericContainers = ReadPointer(file, RvaToFileOffset(0x18D461B18));
+    genericContainersCount = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461B20));
+    genericParameters = ReadPointer(file, RvaToFileOffset(0x18D461B28));
+    genericParametersCount = ReadStruct<uint32_t>(file, RvaToFileOffset(0x18D461B30));
 }
 
 uintptr_t MemoryReader::GetTypeDefinitions() const { return typeDefinitions; }
@@ -66,5 +71,9 @@ uintptr_t MemoryReader::GetParameterDefinitions() const { return parameterDefini
 uint32_t MemoryReader::GetParameterDefinitionsCount() const { return parameterDefinitionsCount; }
 uintptr_t MemoryReader::GetAssemblyDefinitions() const { return assemblyDefinitions; }
 uint32_t MemoryReader::GetAssemblyDefinitionsCount() const { return assemblyDefinitionsCount; }
+uintptr_t MemoryReader::GetGenericContainers() const { return genericContainers; }
+uint32_t MemoryReader::GetGenericContainersCount() const { return genericContainersCount; }
+uintptr_t MemoryReader::GetGenericParameters() const { return genericParameters; }
+uint32_t MemoryReader::GetGenericParametersCount() const { return genericParametersCount; }
 uint32_t MemoryReader::GetTypeDefinitionsCount() const { return typeDefinitionsCount; }
 uint32_t MemoryReader::GetMethodDefinitionsCount() const { return methodDefinitionsCount; }
