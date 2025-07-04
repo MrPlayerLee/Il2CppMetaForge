@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
     builder.SetAssemblyDefinitions(reader.GetAssemblyDefinitions());
     builder.SetImageDefinitions(reader.GetImageDefinitions());
     builder.SetMetadataUsages(reader.GetMetadataUsages());
-    builder.SetStringLiterals(reader.GetStringLiteralTable(), reader.GetStringLiteralData());
+    builder.SetStringLiterals(reader.GetStringLiterals(), reader.GetStringLiteralData());
     builder.SetStrings(reader.GetStringTable());
     builder.SetGenericContainers(reader.GetGenericContainers());
     builder.SetGenericParameters(reader.GetGenericParameters());
